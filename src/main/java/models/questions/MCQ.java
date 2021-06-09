@@ -21,7 +21,7 @@ public class MCQ extends Question {
 		return Arrays.copyOf(answers, 4);
 	}
 	
-	public String getCorrectAnswer() {
-		return answers[correctAnswer];
+	public int getCorrectAnswer() {
+		return correctAnswer;
 	}
 }

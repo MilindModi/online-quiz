@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2021 at 09:47 AM
+-- Generation Time: Jun 09, 2021 at 02:12 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -77,16 +77,17 @@ CREATE TABLE `users` (
   `username` varchar(20) NOT NULL,
   `password` varchar(30) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `type` varchar(1) NOT NULL DEFAULT 'A' COMMENT 'P - Presenter, A - Attendee'
+  `email` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`username`, `password`, `name`, `type`) VALUES
-('milind', 'milind', '', ''),
-('nirav', 'nirav', '', '');
+INSERT INTO `users` (`username`, `password`, `name`, `email`) VALUES
+('milind', 'milind', 'Milind Modi', 'milind@modi.com'),
+('nirav', 'nirav', 'Nirav Chavda', 'nirav@chavda.com'),
+('pradeep', 'pradeep', 'Pradeep Karamakar', 'pradeep@pk.com');
 
 --
 -- Indexes for dumped tables
@@ -108,7 +109,8 @@ ALTER TABLE `quiz`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`username`);
+  ADD PRIMARY KEY (`username`),
+  ADD UNIQUE KEY `email` (`email`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

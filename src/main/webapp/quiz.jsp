@@ -339,7 +339,7 @@ table.table .avatar {
 				        Class.forName("com.mysql.jdbc.Driver");
 				        con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz","root","");
 				        stmt = con.createStatement();
-				        rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='"+quizid+"'");
+				        rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='"+quizid+"' ORDER BY timestamp");
 						
 						while(rs.next())
 						{

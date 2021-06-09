@@ -303,7 +303,34 @@ table.table .avatar {
 			</div>
 		</div>
 
-		
+		<div class="row mt-5">
+            <div class="col-md-12">
+                <table class="table table-hover table-dark">
+                    <thead>
+                      <tr>
+                        <th scope="col">No.</th>
+                        <th scope="col">Quiz Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Name1</td>
+                        <td>10/02/2021</td>
+                        <td>View</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Name2</td>
+                        <td>10/02/2021</td>
+                        <td>View</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

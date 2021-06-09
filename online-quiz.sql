@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2021 at 02:12 PM
+-- Generation Time: Jun 09, 2021 at 09:37 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -39,8 +39,17 @@ CREATE TABLE `questions` (
   `correctanswer` int(1) NOT NULL,
   `type` varchar(10) NOT NULL COMMENT 'MCQ, Open, FIB',
   `correctPoints` int(2) NOT NULL DEFAULT 1,
-  `minusPoints` int(2) NOT NULL DEFAULT 0
+  `minusPoints` int(2) NOT NULL DEFAULT 0,
+  `timestamp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `questions`
+--
+
+INSERT INTO `questions` (`questionid`, `question`, `quizid`, `option1`, `option2`, `option3`, `option4`, `correctanswer`, `type`, `correctPoints`, `minusPoints`, `timestamp`) VALUES
+('4ViEy2', 'Question 5', 825122, 'A', 'B', 'C', 'D', 1, 'MCQ', 1, 0, '2021-06-10 01:04:30'),
+('hl28ga', 'Question 3', 825122, 'A', 'B', 'C', 'D', 1, 'MCQ', 1, 0, '2021-06-10 01:04:20');
 
 -- --------------------------------------------------------
 
@@ -53,6 +62,14 @@ CREATE TABLE `quiz` (
   `quizname` varchar(100) NOT NULL,
   `username` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `quiz`
+--
+
+INSERT INTO `quiz` (`quizid`, `quizname`, `username`) VALUES
+(628732, 'q1', 'pradeep'),
+(825122, 'q2', 'pradeep');
 
 -- --------------------------------------------------------
 

@@ -26,7 +26,7 @@ public class Login extends HttpServlet {
 
 		if (session.getAttribute("username") == null || user == null) {
 			pw.println("Login Failed");
-			pw.println("<a HREF=\"index.html\">Login Page</a>");
+			pw.println("<a HREF=\"index.jsp\">Login Page</a>");
 		} else {
 			/*
 			 * pw.println("<h2>User Name : " + session.getAttribute("username") + "</h2>");

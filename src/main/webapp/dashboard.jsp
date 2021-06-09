@@ -8,7 +8,6 @@
 <body>
 	<div class="back">
 		<img src="img/4.jpg" class="bgimg" type="jpg/jpeg">
-
 	</div>
 
 	<div class="container-fluid text-center">

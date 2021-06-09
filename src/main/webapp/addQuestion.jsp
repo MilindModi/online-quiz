@@ -1,0 +1,48 @@
+<jsp:include page="header.jsp" />
+
+<%
+session = request.getSession(true);
+if (session.getAttribute("username") != null) {
+%>
+<jsp:forward page="dashboard.jsp" />
+<%
+}
+%>
+<title>Insert title here</title>
+</head>
+<body>
+    <div class="card custom-card">
+
+        <form method="post" id="lol">
+ 
+          <div class="card-header"> <h2 class="custom-heading"> Add Question </h2></div>
+ 
+          <div class="card-body">
+ 
+            <div class="form-group">
+              <input type="text" name="que" class="form-control" placeholder="Enter Question" required/>
+            </div>
+            <div class="form-group">
+              <input type="text" name="o1" class="form-control" placeholder="Enter Option 1" required/>
+            </div>
+            <div class="form-group">
+              <input type="text" name="o2" class="form-control" placeholder="Enter Option 2" required/>
+            </div>
+            <div class="form-group">
+              <input type="text" name="o3" class="form-control" placeholder="Enter Option 3" required/>
+            </div>
+            <div class="form-group">
+              <input type="text" name="o4" class="form-control" placeholder="Enter Option 4" required/>
+            </div>
+            <div class="form-group">
+              <input type="text" name="ra" class="form-control" placeholder="Enter Right answer" required/>
+            </div>
+            <div class="form-group">
+              <input type="submit" name="submit" value="Add" class="btn btn-success bb">
+            </div>
+          </div>
+        </form>
+
+    </div>
+</body>
+</html>

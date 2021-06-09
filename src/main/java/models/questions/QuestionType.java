@@ -1,5 +1,5 @@
 package models.questions;
 
 public enum QuestionType {
-	MCQ, Scale, Open
+	MCQ, FillInBlank, Scale, Open
 }

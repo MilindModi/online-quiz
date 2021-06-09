@@ -7,10 +7,12 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 
 import db.Database;
 import models.User;
 
+@WebServlet({ "/Login", "/Login/" })
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -26,10 +28,13 @@ public class Login extends HttpServlet {
 			pw.println("Login Failed");
 			pw.println("<a HREF=\"index.html\">Login Page</a>");
 		} else {
-			pw.println("<h2>User Name : " + session.getAttribute("username") + "</h2>");
-			pw.println("<h2>Date : " + session.getAttribute("date") + "</h2>");
-			pw.println("<h2>Time : " + session.getAttribute("time") + "</h2>");
-			pw.print("<a href=\"Logout\">Logout</a>");
+			/*
+			 * pw.println("<h2>User Name : " + session.getAttribute("username") + "</h2>");
+			 * pw.println("<h2>Date : " + session.getAttribute("date") + "</h2>");
+			 * pw.println("<h2>Time : " + session.getAttribute("time") + "</h2>");
+			 * pw.print("<a href=\"Logout\">Logout</a>");
+			 */
+			response.sendRedirect("dashboard.jsp");
 		}
 		pw.close();
 	}

@@ -2,13 +2,13 @@ package models;
 
 public class User {
 	public final String username;
-	public final UserType type;
 	public final String name;
+	public final String email;
 
-	public User(String username, String name, UserType type) {
+	public User(String username, String name, String email) {
 		this.username = username;
 		this.name = name;
-		this.type = type;
+		this.email = email;
 	}
 
 	@Override

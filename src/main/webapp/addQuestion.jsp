@@ -11,38 +11,47 @@ if (session.getAttribute("username") != null) {
 <title>Insert title here</title>
 </head>
 <body>
-    <div class="card custom-card">
+	<div class="card custom-card">
 
-        <form method="post" id="lol">
- 
-          <div class="card-header"> <h2 class="custom-heading"> Add Question </h2></div>
- 
-          <div class="card-body">
- 
-            <div class="form-group">
-              <input type="text" name="que" class="form-control" placeholder="Enter Question" required/>
-            </div>
-            <div class="form-group">
-              <input type="text" name="o1" class="form-control" placeholder="Enter Option 1" required/>
-            </div>
-            <div class="form-group">
-              <input type="text" name="o2" class="form-control" placeholder="Enter Option 2" required/>
-            </div>
-            <div class="form-group">
-              <input type="text" name="o3" class="form-control" placeholder="Enter Option 3" required/>
-            </div>
-            <div class="form-group">
-              <input type="text" name="o4" class="form-control" placeholder="Enter Option 4" required/>
-            </div>
-            <div class="form-group">
-              <input type="text" name="ra" class="form-control" placeholder="Enter Right answer" required/>
-            </div>
-            <div class="form-group">
-              <input type="submit" name="submit" value="Add" class="btn btn-success bb">
-            </div>
-          </div>
-        </form>
+		<form method="post" id="lol">
 
-    </div>
+			<div class="card-header">
+				<h2 class="custom-heading">Add Question</h2>
+			</div>
+
+			<div class="card-body">
+
+				<div class="form-group">
+					<input type="text" name="que" class="form-control"
+						placeholder="Enter Question" required />
+				</div>
+				<div class="form-group">
+					<input type="text" name="o1" class="form-control"
+						placeholder="A" required />
+				</div>
+				<div class="form-group">
+					<input type="text" name="o2" class="form-control"
+						placeholder="B" required />
+				</div>
+				<div class="form-group">
+					<input type="text" name="o3" class="form-control"
+						placeholder="C"/>
+				</div>
+				<div class="form-group">
+					<input type="text" name="o4" class="form-control"
+						placeholder="D"/>
+				</div>
+				<div class="form-group">
+					<input type="text" name="ra" class="form-control"
+						placeholder="Correct Answer" required />
+				</div>
+				<div class="form-group">
+					<input type="submit" name="submit" value="Add"
+						class="btn btn-success bb">
+				</div>
+			</div>
+		</form>
+
+	</div>
 </body>
 </html>

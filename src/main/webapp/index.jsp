@@ -16,15 +16,19 @@ if (session.getAttribute("username") != null) {
 		<img src="img/1.jpg" class="bgimg" type="jpg/jpeg">
 	</div>
 	<div class="card custom-card">
-		<div class="card-header"><h2 class="custom-heading">Login</h2></div>
+		<div class="card-header">
+			<h2 class="custom-heading">Login</h2>
+		</div>
 		<div class="card-body">
 			<form action="Login" method="post">
 				<div class="form-group">
-					<input type="text" name="username" class="form-control" placeholder="Username" />
+					<input type="text" name="username" class="form-control"
+						placeholder="Username" />
 				</div>
 
 				<div class="form-group">
-					<input type="password" name="password" class="form-control" placeholder="Password" />
+					<input type="password" name="password" class="form-control"
+						placeholder="Password" />
 				</div>
 
 				<div class="form-check">

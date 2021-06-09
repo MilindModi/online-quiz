@@ -1,10 +1,13 @@
+package db;
 import java.sql.*;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpSession;
 
-public class DatabaseConnect {
+import models.User;
+
+public class Database {
     static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost/company";
+    static final String DB_URL = "jdbc:mysql://localhost/online-quiz";
     static final String USER = "root";
     static final String PASS = "";
 
@@ -13,37 +16,39 @@ public class DatabaseConnect {
     // System.out.println(state);
     // }
 
-    public static void ValidateUser(String username, String password, PrintWriter pw, HttpSession session) {
-
-        String sql = "select * from employees where name=\'" + username + "\' AND password=\'" + password + "\'";
+    public static User fetchUser(String username, String password, PrintWriter pw, HttpSession session) {
+        String sql = "SELECT * FROM users WHERE username=\'" + username + "\' AND password=\'" + password + "\'";
         int count = 0;
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-                Statement stmt = conn.createStatement();) {
+                Statement stmt = conn.createStatement()) {
             Class.forName(JDBC_DRIVER);
             ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                String name = rs.getString("name");
-                session.setAttribute("name", name);
+            if (rs.next()) {
+                String uname = rs.getString("username");
+                session.setAttribute("username", uname);
                 session.setAttribute("date", java.time.LocalDate.now());
                 session.setAttribute("time", java.time.LocalTime.now());
+                return new User(uname);
             }
             rs.close();
+            return null;
         } catch (Exception e) {
             pw.println(e.getMessage());
+            return null;
         }
     }
     
-    public static int RegisterUser(String username, String password, PrintWriter pw) {
-    	String sql = "insert into employees values('"+ username +"','"+ password +"')";
+    public static boolean addUser(String username, String password, PrintWriter pw) {
+    	String sql = "INSERT INTO users VALUES('"+ username +"','"+ password +"')";
     	int res = 0;
     	try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-                Statement stmt = conn.createStatement();) {
+                Statement stmt = conn.createStatement()) {
     		Class.forName(JDBC_DRIVER);
     		res = stmt.executeUpdate(sql);
     	} catch (Exception e) {
     		pw.println(e.getMessage());
     	}
     	
-    	return res;
+    	return res >= 0;
     }
 }

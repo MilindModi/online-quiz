@@ -1,3 +1,4 @@
+package pages;
 
 
 import java.io.IOException;
@@ -7,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import db.Database;
 
 /**
  * Servlet implementation class Register
@@ -20,7 +22,7 @@ public class Register extends HttpServlet {
 		PrintWriter pw = response.getWriter();
 		String username = request.getParameter("username");
         String password = request.getParameter("password");
-        if(DatabaseConnect.RegisterUser(username, password, pw) > 0) {
+        if(Database.addUser(username, password, pw)) {
         	pw.println("Register Succesfully");
         } else {
         	pw.println("Failed to register");

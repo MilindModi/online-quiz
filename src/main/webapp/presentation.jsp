@@ -122,16 +122,61 @@ body {
 	}
 }
 </style>
+<%@page import="db.Database"%>
 <script>
+	var wsUrl;
+	if (window.location.protocol == 'http:') {
+		wsUrl = 'ws://';
+	} else {
+		wsUrl = 'wss://';
+	}
+	var ws = new WebSocket(wsUrl + window.location.host
+			+ "/OnlineQuiz/GetAnswer");
+
+	ws.onmessage = function(event) {
+		var mySpan = document.getElementById("crtans");
+		mySpan.innerHTML = "<b>Correct Answer: " + event.data + "</b>";
+	};
+
+	ws.onerror = function(event) {
+		console.log("Error ", event)
+	}
+
+	function sendMsg(val) {
+		var qid = document.getElementById("id_" + val).value;
+		var msg = qid;
+		if (msg) {
+			ws.send(msg);
+		}
+		document.getElementById("crtans").value = "";
+	}
+
+	function test(val, isLast=false) {
+		/* var qid = document.getElementById("id_"+val).value;
+		alert(qid);
+		var loc = window.location;
+		var newloc = loc + '&qid=' + qid;
+		window.history.pushState({}, newloc, loc);
+		alert("HERE"); */
+		sendMsg(val);
+		if(isLast) {
+	var nextbtn = document.getElementById("nextqbtn");
+		nextbtn.innerHTML = '<a href="Scoreboard" class="btn btn-success bb">Display Results</a>';
+		}
+	}
+
 	function showQuestion(id) {
 		document.getElementById('closeScoreboard').click();
 		var questions = document.getElementsByName("questions");
 
 		for (let i = 0; i < questions.length; i++) {
 			let j = i + 1;
-			if (questions[i].id === 'question_' + id) {
+			if (questions[i].id === ('question_' + id)) {
 				if (id < questions.length - 1) {
-					document.getElementById("nextbtn_" + i).innerHTML = "<div data-toggle='modal' data-target ='#scoreboard' class='ml-auto mr-sm-5'><button class='btn btn-success'>Next</button></div>";
+					var eyedee = String(document.getElementById("id_" + i).value);
+					document.getElementById("nextbtn_" + i).innerHTML = "<div data-toggle='modal' data-target ='#scoreboard' class='ml-auto mr-sm-5'><button onclick='test("
+							+ i
+							+ ")' class='btn btn-success'>Next</button></div>";
 					var nextbtn = document.getElementById("nextqbtn");
 					nextbtn.innerHTML = '<input type="submit" name="submit" value="Next Question" class="btn btn-success bb" onclick="showQuestion('
 							+ j + ')">';
@@ -187,6 +232,8 @@ body {
 	%>
 	<div class="container mt-sm-5 my-1" name="questions"
 		id="question_<%=i%>" style="display: none;">
+		<input type="hidden" id="id_<%=i%>" style="display: none;"
+			value="<%=qid%>">
 		<div class="question ml-sm-5 pl-sm-5 pt-2">
 			<div class="py-2 h5">
 				<b id="display_qname"><%=question%></b>
@@ -208,7 +255,8 @@ body {
 	<div
 		style="display: none; padding-top: 10px; width: 100px; margin: 0 auto;"
 		id="finishbtn">
-		<a href="Scoreboard" class="btn btn-success">Finish</a>
+		<a data-toggle='modal' data-target='#scoreboard'
+			onclick="test(<%=i - 1%>, true)" class="btn btn-success">Finish</a>
 	</div>
 	<script>
 		showQuestion(0);

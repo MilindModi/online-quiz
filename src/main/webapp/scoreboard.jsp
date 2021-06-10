@@ -11,6 +11,7 @@
 					</button>
 				</div>
 				<div class="card-body">
+					<center id="crtans"><b>Correct Answer: A</b></center>
 					<div class="row mt-5">
 						<div class="col-md-12">
 							<table class="table table-hover table-light table-borderless"
@@ -38,7 +39,7 @@
 									<tr>
 										<th scope="row"><%=i++%></th>
 										<td><%=s.username%></td>
-										<td><%=s.score %></td>
+										<td><%=s.score%></td>
 									</tr>
 									<%
 									}

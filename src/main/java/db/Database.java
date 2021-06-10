@@ -16,13 +16,26 @@ public class Database {
 	static final String USER = "root";
 	static final String PASS = "";
 
+	public static String getCorrectAnswer(String qid) {
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			ResultSet rs = stmt.executeQuery("SELECT correctanswer FROM questions WHERE questionid='" + qid + "'");
+			if(rs.next()) return rs.getString("correctanswer");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public static List<Score> getScoreboard(String quizid) {
 		List<Score> scores = new ArrayList<>();
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
-			String sql = "SELECT s.username, SUM(s.isCorrect) AS score FROM quiz qu, scoreboard s WHERE qu.quizid='"+quizid+"' and s.questionid IN(SELECT questionid FROM questions WHERE quizid='"+quizid+"') GROUP BY username ORDER BY score DESC;";
+			String sql = "SELECT s.username, SUM(s.isCorrect) AS score FROM quiz qu, scoreboard s WHERE qu.quizid='"
+					+ quizid + "' and s.questionid IN(SELECT questionid FROM questions WHERE quizid='" + quizid
+					+ "') GROUP BY username ORDER BY score DESC;";
 			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()) {
+			while (rs.next()) {
 				String username = rs.getString("username");
 				int score = rs.getInt("score");
 				scores.add(new Score(username, score));

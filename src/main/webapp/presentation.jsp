@@ -126,12 +126,12 @@ body {
 		var questions = document.getElementsByName("questions");
 
 		for (let i = 0; i < questions.length; i++) {
+			let j = i + 1;
 			if (questions[i].id === 'question_' + id) {
+				if (id < questions.length - 1)
+					document.getElementById("nextbtn_" + i).innerHTML = "<div class='ml-auto mr-sm-5'><button class='btn btn-success' onclick='showQuestion("
+							+ j + ")'>Next</button></div>";
 				questions[i].style.display = 'block';
-				let j = i + 1;
-				console.log(j);
-				document.getElementById("nextbtn").innerHTML = "<div class='ml-auto mr-sm-5'><button class='btn btn-success' onclick='showQuestion("
-						+ j + ")'>Next</button></div>";
 			} else
 				questions[i].style.display = 'none';
 		}
@@ -195,7 +195,7 @@ body {
 				</label>
 			</div>
 		</div>
-		<div class="d-flex align-items-center pt-3" id="nextbtn"></div>
+		<div class="d-flex align-items-center pt-3" id="nextbtn_<%=i%>"></div>
 	</div>
 	<%
 	i++;

@@ -14,26 +14,40 @@ public class Database {
 	static final String USER = "root";
 	static final String PASS = "";
 
-	public static void editQuestion(Question q, Integer quizid) {
+	public static void editQuestion(String qid, Question q, Integer quizid) {
 		MCQ question = (MCQ) q;
-		
+
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
 			String[] answers = question.getAnswers();
-			stmt.executeUpdate("UPDATE questions SET questionid, question, quizid, option1, option2, option3, option4, correctanswer, type, correctPoints, minusPoints, timestamp");
+			stmt.executeUpdate("UPDATE questions SET question='" + question.getQuestion() + "', option1='" + answers[0]
+					+ "', option2='" + answers[1] + "', option3='" + answers[2] + "', option4='" + answers[3]
+					+ "', correctanswer='" + question.getCorrectAnswer() + "', WHERE questionid='" + qid + "'");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public static void deleteQuestion(String qid) {
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			stmt.executeUpdate("DELETE FROM questions WHERE questionid='" + qid + "'");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void addQuestion(Question q, Integer quizid) {
 		MCQ question = (MCQ) q;
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
 			String[] answers = question.getAnswers();
-			stmt.executeUpdate("INSERT INTO questions (questionid, question, quizid, option1, option2, option3, option4, correctanswer, type, correctPoints, minusPoints, timestamp) VALUES('" + Util.getUniqueID(6) + "', '" + question.getQuestion()
-					+ "', '" + quizid + "', '" + answers[0] + "', '" + answers[1] + "', '" + answers[2] + "', '"
-					+ answers[3] + "', '" + question.getCorrectAnswer() + "', 'MCQ', '1', '0', '"+java.time.LocalDateTime.now()+"')");
+			stmt.executeUpdate(
+					"INSERT INTO questions (questionid, question, quizid, option1, option2, option3, option4, correctanswer, type, correctPoints, minusPoints, timestamp) VALUES('"
+							+ Util.getUniqueID(6) + "', '" + question.getQuestion() + "', '" + quizid + "', '"
+							+ answers[0] + "', '" + answers[1] + "', '" + answers[2] + "', '" + answers[3] + "', '"
+							+ question.getCorrectAnswer() + "', 'MCQ', '1', '0', '" + java.time.LocalDateTime.now()
+							+ "')");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

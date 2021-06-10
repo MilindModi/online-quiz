@@ -279,25 +279,34 @@ table.table .avatar {
 	font-weight: normal;
 }
 </style>
+
+<script>
+	function setValueById(id, value) {
+		document.getElementById(id).value = value;
+	}
+</script>
+
+</head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="dashboard.jsp">OnlineQuiz</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarTogglerDemo03"
+			aria-controls="navbarTogglerDemo03" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<a class="navbar-brand" href="dashboard.jsp">OnlineQuiz</a>
 
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="dashboard.jsp">Dashboard</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="profile.jsp">Profile</a>
-      </li>
-    </ul>
-    <a href="Logout" class="btn btn-danger">Logout</a>
-  </div>
-</nav>
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+				<li class="nav-item active"><a class="nav-link"
+					href="dashboard.jsp">Dashboard</a></li>
+				<li class="nav-item"><a class="nav-link" href="profile.jsp">Profile</a>
+				</li>
+			</ul>
+			<a href="Logout" class="btn btn-danger">Logout</a>
+		</div>
+	</nav>
 
 	<div class="container-xl">
 		<div class="table-responsive">
@@ -324,47 +333,46 @@ table.table .avatar {
 						</tr>
 					</thead>
 					<tbody>
-		
-						<%@page import="java.sql.*" %>
-						<%@page import="javax.servlet.*, javax.servlet.http.*" %> 
-						<% 
+
+						<%@page import="java.sql.*"%>
+						<%@page import="javax.servlet.*, javax.servlet.http.*"%>
+						<%
 						String quizid;
 						quizid = request.getParameter("id");
-						
+
 						String username;
 						Connection con;
-				        Statement stmt;
-				        ResultSet rs;
-				        
-				        HttpSession sess;
+						Statement stmt;
+						ResultSet rs;
+
+						HttpSession sess;
 						sess = request.getSession();
 						username = (String) sess.getAttribute("username");
-				        
-				        Class.forName("com.mysql.jdbc.Driver");
-				        con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz","root","");
-				        stmt = con.createStatement();
-				        rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='"+quizid+"' ORDER BY timestamp");
-						
-						while(rs.next())
-						{
+
+						Class.forName("com.mysql.jdbc.Driver");
+						con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
+						stmt = con.createStatement();
+						rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='" + quizid + "' ORDER BY timestamp");
+
+						while (rs.next()) {
 							String qid = rs.getString("questionid");
 							String question = rs.getString("question");
 							String qType = rs.getString("type");
-							%>
-							<tr>
-							<td><%=question  %></td>
-							<td><%=qType %></td>
+						%>
+						<tr>
+							<td><%=question%></td>
+							<td><%=qType%></td>
 							<td><a href="#editQuestionModal" class="edit"
 								data-toggle="modal"><i class="material-icons"
 									data-toggle="tooltip" title="Edit">&#xE254;</i></a> <a
-								href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i
-									class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-							</td>
+								href="#deleteQuestionModal" class="delete" data-toggle="modal"><i
+									class="material-icons" data-toggle="tooltip" title="Delete"
+									id="<%=qid%>" onclick="setValueById('qsid', '<%=qid%>')">&#xE872;</i></a></td>
 						</tr>
-							<%
+						<%
 						}
 						%>
-						
+
 					</tbody>
 				</table>
 			</div>
@@ -376,7 +384,7 @@ table.table .avatar {
 			<div class="modal-content">
 				<div class="card custom-card">
 
-					<form method="post" action="AddQuestion?id=<%=quizid %>">
+					<form method="post" action="AddQuestion?id=<%=quizid%>">
 
 						<div class="card-header">
 							<h2 class="custom-heading">Add Question</h2>
@@ -389,26 +397,24 @@ table.table .avatar {
 									placeholder="Enter Question" required />
 							</div>
 							<div class="form-group">
-								<input type="text" name="a" class="form-control"
-									placeholder="A" required />
+								<input type="text" name="a" class="form-control" placeholder="A"
+									required />
 							</div>
 							<div class="form-group">
-								<input type="text" name="b" class="form-control"
-									placeholder="B" required />
+								<input type="text" name="b" class="form-control" placeholder="B"
+									required />
 							</div>
 							<div class="form-group">
-								<input type="text" name="c" class="form-control"
-									placeholder="C" />
+								<input type="text" name="c" class="form-control" placeholder="C" />
 							</div>
 							<div class="form-group">
-								<input type="text" name="d" class="form-control"
-									placeholder="D" />
+								<input type="text" name="d" class="form-control" placeholder="D" />
 							</div>
 							<div class="form-group">
 								<input type="text" name="ca" class="form-control"
 									placeholder="Correct Answer" required />
 							</div>
-							
+
 							<div class="form-group">
 								<input type="submit" name="submit" value="Add"
 									class="btn btn-success bb">
@@ -421,23 +427,66 @@ table.table .avatar {
 		</div>
 	</div>
 	<!-- Edit Modal HTML -->
-	<div id="editEmployeeModal" class="modal fade">
+	<div id="editQuestionModal" class="modal fade">
 		<div class="modal-dialog">
-			<div class="modal-content"></div>
+			<div class="modal-content">
+				<div class="card custom-card">
+
+					<form method="post" action="AddQuestion?id=<%=quizid%>">
+
+						<div class="card-header">
+							<h2 class="custom-heading">Add Question</h2>
+						</div>
+
+						<div class="card-body">
+
+							<div class="form-group">
+								<input type="text" name="q" class="form-control"
+									placeholder="Enter Question" required />
+							</div>
+							<div class="form-group">
+								<input type="text" name="a" class="form-control" placeholder="A"
+									required />
+							</div>
+							<div class="form-group">
+								<input type="text" name="b" class="form-control" placeholder="B"
+									required />
+							</div>
+							<div class="form-group">
+								<input type="text" name="c" class="form-control" placeholder="C" />
+							</div>
+							<div class="form-group">
+								<input type="text" name="d" class="form-control" placeholder="D" />
+							</div>
+							<div class="form-group">
+								<input type="text" name="ca" class="form-control"
+									placeholder="Correct Answer" required />
+							</div>
+
+							<div class="form-group">
+								<input type="submit" name="submit" value="Add"
+									class="btn btn-success bb">
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- Delete Modal HTML -->
-	<div id="deleteEmployeeModal" class="modal fade">
+	<div id="deleteQuestionModal" class="modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form>
+				<form method="POST" action="DeleteQuestion">
+				<input type="hidden" id="qsid" name="qsid">
 					<div class="modal-header">
-						<h4 class="modal-title">Delete Employee</h4>
+						<h4 class="modal-title">Delete Question</h4>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">&times;</button>
 					</div>
 					<div class="modal-body">
-						<p>Are you sure you want to delete these Records?</p>
+						<p>Are you sure you want to delete these question?</p>
 						<p class="text-warning">
 							<small>This action cannot be undone.</small>
 						</p>

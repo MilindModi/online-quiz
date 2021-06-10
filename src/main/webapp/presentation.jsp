@@ -144,6 +144,17 @@ body {
 	ws.onerror = function(event) {
 		console.log("Error ", event)
 	}
+	
+	var ws3 = new WebSocket(wsUrl + window.location.host + "/OnlineQuiz/SendQuestion");
+	
+	ws3.onmessage = function(event) {
+		//var mySpan = document.getElementById("crtans");
+		//mySpan.innerHTML = "<b>Correct Answer: " + event.data + "</b>";
+	};
+
+	ws3.onerror = function(event) {
+		console.log("Error ", event)
+	}
 
 /*  */	
 	
@@ -175,6 +186,8 @@ body {
 	}
 	/*  */
 	
+	var qArray = [];
+	
 	function sendMsg(val) {
 		var qid = document.getElementById("id_" + val).value;
 		var msg = qid;
@@ -184,6 +197,7 @@ body {
 		}
 		document.getElementById("crtans").value = "";
 	}
+	
 
 	function test(val, isLast=false) {
 		/* var qid = document.getElementById("id_"+val).value;
@@ -198,8 +212,8 @@ body {
 		nextbtn.innerHTML = '<a href="Scoreboard" class="btn btn-success bb">Display Results</a>';
 		}
 	}
-
-	function showQuestion(id) {
+	
+	/* function showQuestion(id) {
 		document.getElementById('closeScoreboard').click();
 		var questions = document.getElementsByName("questions");
 
@@ -207,7 +221,7 @@ body {
 			let j = i + 1;
 			if (questions[i].id === ('question_' + id)) {
 				if (id < questions.length - 1) {
-					var eyedee = String(document.getElementById("id_" + i).value);
+					// var eyedee = String(document.getElementById("id_" + i).value);
 					document.getElementById("nextbtn_" + i).innerHTML = "<div data-toggle='modal' data-target ='#scoreboard' class='ml-auto mr-sm-5'><button onclick='test("
 							+ i
 							+ ")' class='btn btn-success'>Next</button></div>";
@@ -220,7 +234,10 @@ body {
 			} else
 				questions[i].style.display = 'none';
 		}
-	}
+		var m = document.getElementById("id_"+id).value;
+		console.log("MSG: " + m);
+		ws3.send(m);
+	} */
 </script>
 </head>
 <body>
@@ -270,6 +287,17 @@ body {
 
 		/*questions.add(new MCQ(question, new String[] { a, b, c, d }, ca));*/
 	%>
+	<script>
+		qArray.splice(0, 0, {
+			"qid": "<%=qid%>",
+			"qname": "<%=question%>",
+			"a": "<%=a%>",
+			"b": "<%=b%>",
+		"c": "<%=c%>",
+			"d": "<%=d%>",
+			"ca": "<%=ca%>"
+		});
+	</script>
 	<div class="container question-container mt-sm-5 my-1" name="questions"
 		id="question_<%=i%>" style="display: none;">
 		<input type="hidden" id="id_<%=i%>" style="display: none;"
@@ -299,7 +327,36 @@ body {
 			onclick="test(<%=i - 1%>, true)" class="btn btn-success">Finish</a>
 	</div>
 	<script>
-		showQuestion(0);
+	function showQuestion(id) {
+		document.getElementById('closeScoreboard').click();
+		var questions = document.getElementsByName("questions");
+
+		for (let i = 0; i < questions.length; i++) {
+			let j = i + 1;
+			if (questions[i].id === ('question_' + id)) {
+				if (id < questions.length - 1) {
+					// var eyedee = String(document.getElementById("id_" + i).value);
+					document.getElementById("nextbtn_" + i).innerHTML = "<div data-toggle='modal' data-target ='#scoreboard' class='ml-auto mr-sm-5'><button onclick='test("
+							+ i
+							+ ")' class='btn btn-success'>Next</button></div>";
+					var nextbtn = document.getElementById("nextqbtn");
+					nextbtn.innerHTML = '<input type="submit" name="submit" value="Next Question" class="btn btn-success bb" onclick="showQuestion('
+							+ j + ')">';
+				} else
+					document.getElementById("finishbtn").style.display = "block";
+				questions[i].style.display = 'block';
+			} else
+				questions[i].style.display = 'none';
+		}
+		var m = document.getElementById("id_"+id).value;
+		console.log("MSG: " + m);
+		sendMessage(JSON.stringify(qArray[id]));
+	}
+	
+	setTimeout(() => showQuestion(0), 1000);
+	function sendMessage(msg) {
+		ws3.send(msg);
+	}
 	</script>
 
 </body>

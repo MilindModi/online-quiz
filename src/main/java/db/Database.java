@@ -15,13 +15,51 @@ public class Database {
 	static final String DB_URL = "jdbc:mysql://localhost/online-quiz";
 	static final String USER = "root";
 	static final String PASS = "";
+
+	public static Question getQuestion(String questionid) {
+		Question q = null;
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			ResultSet rs = stmt.executeQuery("SELECT * FROM questions WHERE questionid='" + questionid + "'");
+			if (rs.next()) {
+				String qname = rs.getString("question");
+				String a = rs.getString("option1");
+				String b = rs.getString("option2");
+				String c = rs.getString("option3");
+				String d = rs.getString("option4");
+				String ca = rs.getString("correctanswer");
+				
+				q = new MCQ(qname, new String[] {a,b,c,d}, ca);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return q;
+	}
 	
+	public static boolean quizExists(String quizid) {
+		int count = 0;
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(quizid) as count FROM quiz WHERE quizid='" + quizid + "'");
+			if (rs.next()) {
+				count = rs.getInt("count");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count > 0;
+	}
+
 	public static int[] getPerQuestionResult(String quesid) {
-		System.out.println(quesid);
 		int[] score = new int[2];
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
-			ResultSet rs = stmt.executeQuery("SELECT COUNT(CASE WHEN isCorrect = 0 then isCorrect end) as wrong, COUNT(CASE WHEN isCorrect = 1 then isCorrect end) as correct from scoreboard where questionid = '"+quesid+"'");
+			ResultSet rs = stmt.executeQuery(
+					"SELECT COUNT(CASE WHEN isCorrect = 0 then isCorrect end) as wrong, COUNT(CASE WHEN isCorrect = 1 then isCorrect end) as correct from scoreboard where questionid = '"
+							+ quesid + "'");
 			while (rs.next()) {
 				score[0] = rs.getInt("correct");
 				score[1] = rs.getInt("wrong");
@@ -37,7 +75,8 @@ public class Database {
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
 			ResultSet rs = stmt.executeQuery("SELECT correctanswer FROM questions WHERE questionid='" + qid + "'");
-			if(rs.next()) return rs.getString("correctanswer");
+			if (rs.next())
+				return rs.getString("correctanswer");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

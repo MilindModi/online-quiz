@@ -42,7 +42,7 @@
 					data-toggle="modal"><h1 class="q">Create Quiz</h1></a>
 			</div>
 			<div class="col animated slideInRight">
-				<a class="btn btn-danger tbtn" href="q1r2-test.php">
+				<a class="btn btn-danger tbtn" href="#participateModal" data-toggle="modal">
 				<h1 class="q">Participate</h1></a>
 			</div>
 		</div>
@@ -113,7 +113,7 @@
 			crossorigin="anonymous"></script>
 </body>
 
-<!-- Edit Modal HTML -->
+<!-- Create Modal HTML -->
 <div id="createQuizModal" class="modal fade" style="z-index: 9999;"
 	role="dialog">
 	<div class="modal-dialog">
@@ -132,6 +132,35 @@
 
 						<div class="form-group">
 							<input type="submit" name="submit" value="Create"
+								class="btn btn-success bb">
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Participate Modal HTML -->
+<div id="participateModal" class="modal fade" style="z-index: 9999;"
+	role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="card">
+				<form method="get" action="participate.jsp">
+					<div class="card-header">
+						<h2 class="custom-heading">Participate</h2>
+					</div>
+
+					<div class="card-body">
+						<div class="form-group">
+							<input type="text" name="quizid" class="form-control"
+								placeholder="Quiz ID" required />
+						</div>
+
+						<div class="form-group">
+							<input type="submit" value="Participate"
 								class="btn btn-success bb">
 						</div>
 					</div>

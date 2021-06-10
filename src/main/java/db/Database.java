@@ -14,7 +14,7 @@ public class Database {
 	static final String USER = "root";
 	static final String PASS = "";
 
-	public static void editQuestion(String qid, Question q, Integer quizid) {
+	public static void updateQuestion(String qid, Question q) {
 		MCQ question = (MCQ) q;
 
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -22,7 +22,7 @@ public class Database {
 			String[] answers = question.getAnswers();
 			stmt.executeUpdate("UPDATE questions SET question='" + question.getQuestion() + "', option1='" + answers[0]
 					+ "', option2='" + answers[1] + "', option3='" + answers[2] + "', option4='" + answers[3]
-					+ "', correctanswer='" + question.getCorrectAnswer() + "', WHERE questionid='" + qid + "'");
+					+ "', correctanswer='" + question.getCorrectAnswer() + "' WHERE questionid='" + qid + "'");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

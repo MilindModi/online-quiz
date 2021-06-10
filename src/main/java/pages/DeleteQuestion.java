@@ -19,7 +19,7 @@ public class DeleteQuestion extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String questionid = request.getParameter("qsid");
+		String questionid = request.getParameter("id");
 		Database.deleteQuestion(questionid);
 		String referer = request.getHeader("referer");
 		int index = referer.indexOf("quiz.jsp");

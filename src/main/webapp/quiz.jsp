@@ -284,6 +284,20 @@ table.table .avatar {
 	function setValueById(id, value) {
 		document.getElementById(id).value = value;
 	}
+	
+	function loadData(qname, a, b, c, d, ca) {
+		document.getElementById("update_qname").value = qname;
+		document.getElementById("update_a").value = a;
+		document.getElementById("update_b").value = b;
+		document.getElementById("update_c").value = c;
+		document.getElementById("update_d").value = d;
+		document.getElementById("update_ca").value = ca;
+	}
+	
+	function update(id, value, qname, a, b, c, d, ca) {
+		setValueById(id, value);
+		loadData(qname, a, b, c, d, ca);
+	}
 </script>
 
 </head>
@@ -349,7 +363,7 @@ table.table .avatar {
 						sess = request.getSession();
 						username = (String) sess.getAttribute("username");
 
-						Class.forName("com.mysql.jdbc.Driver");
+						Class.forName("com.mysql.cj.jdbc.Driver");
 						con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
 						stmt = con.createStatement();
 						rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='" + quizid + "' ORDER BY timestamp");
@@ -357,6 +371,11 @@ table.table .avatar {
 						while (rs.next()) {
 							String qid = rs.getString("questionid");
 							String question = rs.getString("question");
+							String a = rs.getString("option1");
+							String b = rs.getString("option2");
+							String c = rs.getString("option3");
+							String d = rs.getString("option4");
+							String ca = rs.getString("correctanswer");
 							String qType = rs.getString("type");
 						%>
 						<tr>
@@ -364,10 +383,10 @@ table.table .avatar {
 							<td><%=qType%></td>
 							<td><a href="#editQuestionModal" class="edit"
 								data-toggle="modal"><i class="material-icons"
-									data-toggle="tooltip" title="Edit">&#xE254;</i></a> <a
+									data-toggle="tooltip" title="Edit" id="<%=qid%>" onclick="update('update_qsid', '<%=qid%>', '<%=question%>', '<%=a%>', '<%=b%>', '<%=c%>', '<%=d%>', '<%=ca%>')">&#xE254;</i></a> <a
 								href="#deleteQuestionModal" class="delete" data-toggle="modal"><i
 									class="material-icons" data-toggle="tooltip" title="Delete"
-									id="<%=qid%>" onclick="setValueById('qsid', '<%=qid%>')">&#xE872;</i></a></td>
+									id="<%=qid%>" onclick="setValueById('delete_qsid', '<%=qid%>')">&#xE872;</i></a></td>
 						</tr>
 						<%
 						}
@@ -411,7 +430,7 @@ table.table .avatar {
 								<input type="text" name="d" class="form-control" placeholder="D" />
 							</div>
 							<div class="form-group">
-								<input type="text" name="ca" class="form-control"
+								<input type="number" min="1" max="4" name="ca" class="form-control"
 									placeholder="Correct Answer" required />
 							</div>
 
@@ -432,39 +451,39 @@ table.table .avatar {
 			<div class="modal-content">
 				<div class="card custom-card">
 
-					<form method="post" action="AddQuestion?id=<%=quizid%>">
-
+					<form method="post" action="UpdateQuestion">
+						<input type="hidden" id="update_qsid" name="id">
 						<div class="card-header">
-							<h2 class="custom-heading">Add Question</h2>
+							<h2 class="custom-heading">Edit Question</h2>
 						</div>
 
 						<div class="card-body">
 
 							<div class="form-group">
-								<input type="text" name="q" class="form-control"
+								<input type="text" name="update_qname" id="update_qname" class="form-control"
 									placeholder="Enter Question" required />
 							</div>
 							<div class="form-group">
-								<input type="text" name="a" class="form-control" placeholder="A"
+								<input type="text" name="a" id="update_a" class="form-control" placeholder="A"
 									required />
 							</div>
 							<div class="form-group">
-								<input type="text" name="b" class="form-control" placeholder="B"
+								<input type="text" name="b" id="update_b" class="form-control" placeholder="B"
 									required />
 							</div>
 							<div class="form-group">
-								<input type="text" name="c" class="form-control" placeholder="C" />
+								<input type="text" name="c" id="update_c" class="form-control" placeholder="C" />
 							</div>
 							<div class="form-group">
-								<input type="text" name="d" class="form-control" placeholder="D" />
+								<input type="text" name="d" id="update_d" class="form-control" placeholder="D" />
 							</div>
 							<div class="form-group">
-								<input type="text" name="ca" class="form-control"
+								<input type="number" min="1" max="4" name="ca" id="update_ca" class="form-control"
 									placeholder="Correct Answer" required />
 							</div>
 
 							<div class="form-group">
-								<input type="submit" name="submit" value="Add"
+								<input type="submit" name="submit" value="Update"
 									class="btn btn-success bb">
 							</div>
 						</div>
@@ -479,7 +498,7 @@ table.table .avatar {
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form method="POST" action="DeleteQuestion">
-				<input type="hidden" id="qsid" name="qsid">
+				<input type="hidden" id="delete_qsid" name="id">
 					<div class="modal-header">
 						<h4 class="modal-title">Delete Question</h4>
 						<button type="button" class="close" data-dismiss="modal"

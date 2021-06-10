@@ -14,6 +14,18 @@ public class Database {
 	static final String USER = "root";
 	static final String PASS = "";
 
+	public static void editQuestion(Question q, Integer quizid) {
+		MCQ question = (MCQ) q;
+		
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			String[] answers = question.getAnswers();
+			stmt.executeUpdate("UPDATE questions SET questionid, question, quizid, option1, option2, option3, option4, correctanswer, type, correctPoints, minusPoints, timestamp");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void addQuestion(Question q, Integer quizid) {
 		MCQ question = (MCQ) q;
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);

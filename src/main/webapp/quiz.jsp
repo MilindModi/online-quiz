@@ -280,6 +280,25 @@ table.table .avatar {
 }
 </style>
 <body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="dashboard.jsp">OnlineQuiz</a>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="dashboard.jsp">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="profile.jsp">Profile</a>
+      </li>
+    </ul>
+    <a href="Logout" class="btn btn-danger">Logout</a>
+  </div>
+</nav>
+
 	<div class="container-xl">
 		<div class="table-responsive">
 			<div class="table-wrapper">
@@ -287,7 +306,7 @@ table.table .avatar {
 					<div class="row">
 						<div class="col-sm-6">
 							<h2>
-								<b>Create Quiz</b>
+								<b>My Quizs</b>
 							</h2>
 						</div>
 						<div class="col-sm-6">
@@ -335,7 +354,7 @@ table.table .avatar {
 							<tr>
 							<td><%=question  %></td>
 							<td><%=qType %></td>
-							<td><a href="#editEmployeeModal" class="edit"
+							<td><a href="#editQuestionModal" class="edit"
 								data-toggle="modal"><i class="material-icons"
 									data-toggle="tooltip" title="Edit">&#xE254;</i></a> <a
 								href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i

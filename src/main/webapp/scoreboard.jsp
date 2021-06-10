@@ -1,8 +1,8 @@
 <!-- Scoreboard Modal HTML -->
-<div id="scoreboard" class="modal fade">
-	<div class="modal-dialog">
+<div id="scoreboard" class="modal custom-modal fade">
+	<div class="modal-dialog" style="max-width: 70%!important;">
 		<div class="modal-content">
-			<div class="card custom-card">
+			<div class="card score-card">
 				<div class="card-header">
 					<h2 class="custom-heading">Scoreboard</h2>
 					<button id="closeScoreboard" type="button" class="close"
@@ -13,7 +13,7 @@
 				<div class="card-body">
 					<center id="crtans"><b>Correct Answer: A</b></center>
 					<div class="row mt-5">
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<table class="table table-hover table-light table-borderless"
 								style="width: 60%; margin: 0 auto;'">
 								<thead class="thead-dark">
@@ -47,6 +47,15 @@
 								</tbody>
 							</table>
 						</div>
+						<div class="col-md-6">
+							<div class="container d-flex justify-container-center">
+							    <div class="row">
+							        <div class="col-md-12">
+							            <div id="piechart" style="width: 100%;"></div>
+							        </div>
+							    </div>
+							</div>
+						</div>	
 					</div>
 					<br />
 					<center>

@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -13,6 +14,8 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap')
@@ -28,7 +31,7 @@ body {
 	background-color: #333
 }
 
-.container {
+.question-container {
 	background-color: #555;
 	color: #ddd;
 	border-radius: 10px;
@@ -37,7 +40,7 @@ body {
 	max-width: 700px
 }
 
-.container>p {
+.question-container>p {
 	font-size: 32px
 }
 
@@ -142,11 +145,42 @@ body {
 		console.log("Error ", event)
 	}
 
+/*  */	
+	
+	var ws2 = new WebSocket(wsUrl + window.location.host
+			+ "/OnlineQuiz/GetDetails");
+
+	ws2.onmessage = function(event) {
+		var result = event.data.split(',');
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+		function drawChart() {
+			var data = google.visualization.arrayToDataTable([
+				['Result', 'Total'],
+				['Correct Answers', parseInt(result[0])],
+				['Wrong Answers', parseInt(result[1])]
+				]);
+			
+			var options = {
+				title: 'Score in percentage'
+			};
+		
+			var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+			chart.draw(data, options);
+		}
+	};
+
+	ws2.onerror = function(event) {
+		console.log("Error ", event)
+	}
+	/*  */
+	
 	function sendMsg(val) {
 		var qid = document.getElementById("id_" + val).value;
 		var msg = qid;
 		if (msg) {
 			ws.send(msg);
+			ws2.send(msg);
 		}
 		document.getElementById("crtans").value = "";
 	}
@@ -211,6 +245,7 @@ body {
 	Connection con;
 	Statement stmt;
 	ResultSet rs;
+	String qid = "";
 
 	HttpSession sess;
 	sess = request.getSession();
@@ -224,7 +259,7 @@ body {
 
 	int i = 0;
 	while (rs.next()) {
-		String qid = rs.getString("questionid");
+		qid = rs.getString("questionid");
 		String question = rs.getString("question");
 		String a = rs.getString("option1");
 		String b = rs.getString("option2");
@@ -235,7 +270,7 @@ body {
 
 		/*questions.add(new MCQ(question, new String[] { a, b, c, d }, ca));*/
 	%>
-	<div class="container mt-sm-5 my-1" name="questions"
+	<div class="container question-container mt-sm-5 my-1" name="questions"
 		id="question_<%=i%>" style="display: none;">
 		<input type="hidden" id="id_<%=i%>" style="display: none;"
 			value="<%=qid%>">
@@ -268,6 +303,17 @@ body {
 	</script>
 
 </body>
+<%-- <%
+int[] result = Database.getPerQuestionResult(qid);
+%> --%>
+<script>
+
+
+	/* $(document).ready(function(){
+	
+	
+}); */
+</script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 	crossorigin="anonymous"></script>

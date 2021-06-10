@@ -42,8 +42,8 @@
 					data-toggle="modal"><h1 class="q">Create Quiz</h1></a>
 			</div>
 			<div class="col animated slideInRight">
-				<a class="btn btn-danger tbtn" href="q1r2-test.php"><h1
-						class="q">Participate</h1></a>
+				<a class="btn btn-danger tbtn" href="q1r2-test.php">
+				<h1 class="q">Participate</h1></a>
 			</div>
 		</div>
 
@@ -98,6 +98,7 @@
 				</table>
 			</div>
 		</div>
+	</div>
 
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

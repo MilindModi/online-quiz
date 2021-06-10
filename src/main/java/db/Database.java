@@ -15,6 +15,23 @@ public class Database {
 	static final String DB_URL = "jdbc:mysql://localhost/online-quiz";
 	static final String USER = "root";
 	static final String PASS = "";
+	
+	public static int[] getPerQuestionResult(String quesid) {
+		System.out.println(quesid);
+		int[] score = new int[2];
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(CASE WHEN isCorrect = 0 then isCorrect end) as wrong, COUNT(CASE WHEN isCorrect = 1 then isCorrect end) as correct from scoreboard where questionid = '"+quesid+"'");
+			while (rs.next()) {
+				score[0] = rs.getInt("correct");
+				score[1] = rs.getInt("wrong");
+			}
+			System.out.println(score[0]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return score;
+	}
 
 	public static String getCorrectAnswer(String qid) {
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);

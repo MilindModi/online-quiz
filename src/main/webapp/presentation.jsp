@@ -121,10 +121,92 @@ body {
 	}
 }
 </style>
+<script>
+	function showQuestion(id) {
+		var questions = document.getElementsByName("questions");
+
+		for (let i = 0; i < questions.length; i++) {
+			if (questions[i].id === 'question_' + id) {
+				questions[i].style.display = 'block';
+				let j = i + 1;
+				console.log(j);
+				document.getElementById("nextbtn").innerHTML = "<div class='ml-auto mr-sm-5'><button class='btn btn-success' onclick='showQuestion("
+						+ j + ")'>Next</button></div>";
+			} else
+				questions[i].style.display = 'none';
+		}
+	}
+</script>
+</head>
 <body>
+
 	<jsp:include page="navbar.jsp" />
+	<%@page import="models.questions.*"%>
+	<%@page import="java.sql.*, java.util.*"%>
+	<%@page import="javax.servlet.*, javax.servlet.http.*"%>
+
+	<%
+	String quizid;
+	quizid = request.getParameter("id");
+
+	String username;
+	Connection con;
+	Statement stmt;
+	ResultSet rs;
+
+	HttpSession sess;
+	sess = request.getSession();
+	username = (String) sess.getAttribute("username");
+
+	Class.forName("com.mysql.cj.jdbc.Driver");
+	con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
+	stmt = con.createStatement();
+	rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='" + quizid + "' ORDER BY timestamp");
+	/*List<Question> questions = new ArrayList<>();*/
+
+	int i = 0;
+	while (rs.next()) {
+		String qid = rs.getString("questionid");
+		String question = rs.getString("question");
+		String a = rs.getString("option1");
+		String b = rs.getString("option2");
+		String c = rs.getString("option3");
+		String d = rs.getString("option4");
+		int ca = Integer.parseInt(rs.getString("correctanswer"));
+		String qType = rs.getString("type");
+
+		/*questions.add(new MCQ(question, new String[] { a, b, c, d }, ca));*/
+	%>
+	<div class="container mt-sm-5 my-1" name="questions"
+		id="question_<%=i%>" style="display: none;">
+		<div class="question ml-sm-5 pl-sm-5 pt-2">
+			<div class="py-2 h5">
+				<b id="display_qname"><%=question%></b>
+			</div>
+			<div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
+				<label class="options" id="display_a"><%=a%> <input
+					type="radio" name="radio"> <span class="checkmark"></span>
+				</label> <label class="options" id="display_b"><%=b%> <input
+					type="radio" name="radio"> <span class="checkmark"></span>
+				</label> <label class="options" id="display_c"><%=c%> <input
+					type="radio" name="radio"> <span class="checkmark"></span>
+				</label> <label class="options" id="display_d"><%=d%> <input
+					type="radio" name="radio"> <span class="checkmark"></span>
+				</label>
+			</div>
+		</div>
+		<div class="d-flex align-items-center pt-3" id="nextbtn"></div>
+	</div>
+	<%
+	i++;
+	}
+	%>
+	<script>
+		showQuestion(0);
+	</script>
+
 	<!-- Question Start -->
-	<div class="container mt-sm-5 my-1">
+	<!-- <div class="container mt-sm-5 my-1">
 		<div class="question ml-sm-5 pl-sm-5 pt-2">
 			<div class="py-2 h5">
 				<b>Q. which option best describes your job role?</b>
@@ -149,7 +231,7 @@ body {
 				<button class="btn btn-success">Next</button>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<!-- Question End -->
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

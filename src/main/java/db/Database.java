@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 import models.User;
 import util.Util;
 import models.questions.*;
+import models.Score;
+import java.util.*;
 
 public class Database {
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -14,14 +16,79 @@ public class Database {
 	static final String USER = "root";
 	static final String PASS = "";
 
+	public static String getCorrectAnswer(String qid) {
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			ResultSet rs = stmt.executeQuery("SELECT correctanswer FROM questions WHERE questionid='" + qid + "'");
+			if(rs.next()) return rs.getString("correctanswer");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static List<Score> getScoreboard(String quizid) {
+		List<Score> scores = new ArrayList<>();
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			String sql = "SELECT s.username, SUM(s.isCorrect) AS score FROM quiz qu, scoreboard s WHERE qu.quizid='"
+					+ quizid + "' and s.questionid IN(SELECT questionid FROM questions WHERE quizid='" + quizid
+					+ "') GROUP BY username ORDER BY score DESC;";
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				String username = rs.getString("username");
+				int score = rs.getInt("score");
+				scores.add(new Score(username, score));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return scores;
+	}
+
+	public static void updateQuestion(String qid, Question q) {
+		MCQ question = (MCQ) q;
+
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			String[] answers = question.getAnswers();
+			stmt.executeUpdate("UPDATE questions SET question='" + question.getQuestion() + "', option1='" + answers[0]
+					+ "', option2='" + answers[1] + "', option3='" + answers[2] + "', option4='" + answers[3]
+					+ "', correctanswer='" + question.getCorrectAnswer() + "' WHERE questionid='" + qid + "'");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void deleteQuiz(String qid) {
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			stmt.executeUpdate("DELETE FROM quiz WHERE quizid='" + qid + "'");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void deleteQuestion(String qid) {
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			stmt.executeUpdate("DELETE FROM questions WHERE questionid='" + qid + "'");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void addQuestion(Question q, Integer quizid) {
 		MCQ question = (MCQ) q;
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
 			String[] answers = question.getAnswers();
-			stmt.executeUpdate("INSERT INTO questions (questionid, question, quizid, option1, option2, option3, option4, correctanswer, type, correctPoints, minusPoints, timestamp) VALUES('" + Util.getUniqueID(6) + "', '" + question.getQuestion()
-					+ "', '" + quizid + "', '" + answers[0] + "', '" + answers[1] + "', '" + answers[2] + "', '"
-					+ answers[3] + "', '" + question.getCorrectAnswer() + "', 'MCQ', '1', '0', '"+java.time.LocalDateTime.now()+"')");
+			stmt.executeUpdate(
+					"INSERT INTO questions (questionid, question, quizid, option1, option2, option3, option4, correctanswer, type, correctPoints, minusPoints, timestamp) VALUES('"
+							+ Util.getUniqueID(6) + "', '" + question.getQuestion() + "', '" + quizid + "', '"
+							+ answers[0] + "', '" + answers[1] + "', '" + answers[2] + "', '" + answers[3] + "', '"
+							+ question.getCorrectAnswer() + "', 'MCQ', '1', '0', '" + java.time.LocalDateTime.now()
+							+ "')");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -53,8 +120,8 @@ public class Database {
 
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
-			int result = stmt.executeUpdate("INSERT INTO quiz (quizid, quizname, username) VALUES(" + quizid + ", '"
-					+ quizname + "', '" + username + "')");
+			int result = stmt.executeUpdate("INSERT INTO quiz (quizid, quizname, username, timestamp) VALUES(" + quizid
+					+ ", '" + quizname + "', '" + username + "', '" + java.time.LocalDateTime.now() + "')");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

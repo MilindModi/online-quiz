@@ -21,7 +21,7 @@ public class CreateQuiz extends HttpServlet {
 		HttpSession session = request.getSession();
 		String quizname = request.getParameter("quizname");
 		Integer quizid = Database.getNumericId(session.getAttribute("username").toString(), quizname);
-		response.sendRedirect("quiz.jsp?id=" + quizid);
+		response.sendRedirect("quiz.jsp?id=" + quizid + "&name=" + quizname);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

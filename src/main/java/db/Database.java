@@ -28,6 +28,15 @@ public class Database {
 		}
 	}
 
+	public static void deleteQuiz(String qid) {
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			stmt.executeUpdate("DELETE FROM quiz WHERE quizid='" + qid + "'");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static void deleteQuestion(String qid) {
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
@@ -79,8 +88,8 @@ public class Database {
 
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
-			int result = stmt.executeUpdate("INSERT INTO quiz (quizid, quizname, username) VALUES(" + quizid + ", '"
-					+ quizname + "', '" + username + "')");
+			int result = stmt.executeUpdate("INSERT INTO quiz (quizid, quizname, username, timestamp) VALUES(" + quizid
+					+ ", '" + quizname + "', '" + username + "', '" + java.time.LocalDateTime.now() + "')");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

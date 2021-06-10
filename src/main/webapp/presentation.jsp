@@ -197,7 +197,12 @@ body {
 	<%@page import="java.util.*"%>
 	<%@page import="java.sql.*, java.util.*"%>
 	<%@page import="javax.servlet.*, javax.servlet.http.*"%>
-
+	<div
+		style="text-align: center; padding: 20px; width: 800px; margin: 0 auto; color: white;">
+		<h3>
+			Go to OnlineQuiz/Participate and use the code
+			<%=request.getParameter("id")%></h3>
+	</div>
 	<%
 	String quizid;
 	quizid = request.getParameter("id");

@@ -12,6 +12,7 @@
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap')
@@ -123,14 +124,19 @@ body {
 </style>
 <script>
 	function showQuestion(id) {
+		document.getElementById('closeScoreboard').click();
 		var questions = document.getElementsByName("questions");
 
 		for (let i = 0; i < questions.length; i++) {
 			let j = i + 1;
 			if (questions[i].id === 'question_' + id) {
-				if (id < questions.length - 1)
-					document.getElementById("nextbtn_" + i).innerHTML = "<div class='ml-auto mr-sm-5'><button class='btn btn-success' onclick='showQuestion("
-							+ j + ")'>Next</button></div>";
+				if (id < questions.length - 1) {
+					document.getElementById("nextbtn_" + i).innerHTML = "<div data-toggle='modal' data-target ='#scoreboard' class='ml-auto mr-sm-5'><button class='btn btn-success'>Next</button></div>";
+					var nextbtn = document.getElementById("nextqbtn");
+					nextbtn.innerHTML = '<input type="submit" name="submit" value="Next Question" class="btn btn-success bb" onclick="showQuestion('
+							+ j + ')">';
+				} else
+					document.getElementById("finishbtn").style.display = "block";
 				questions[i].style.display = 'block';
 			} else
 				questions[i].style.display = 'none';
@@ -141,7 +147,9 @@ body {
 <body>
 
 	<jsp:include page="navbar.jsp" />
+	<jsp:include page="scoreboard.jsp" />
 	<%@page import="models.questions.*"%>
+	<%@page import="java.util.*"%>
 	<%@page import="java.sql.*, java.util.*"%>
 	<%@page import="javax.servlet.*, javax.servlet.http.*"%>
 
@@ -183,15 +191,11 @@ body {
 			<div class="py-2 h5">
 				<b id="display_qname"><%=question%></b>
 			</div>
-			<div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
-				<label class="options" id="display_a"><%=a%> <input
-					type="radio" name="radio"> <span class="checkmark"></span>
-				</label> <label class="options" id="display_b"><%=b%> <input
-					type="radio" name="radio"> <span class="checkmark"></span>
-				</label> <label class="options" id="display_c"><%=c%> <input
-					type="radio" name="radio"> <span class="checkmark"></span>
-				</label> <label class="options" id="display_d"><%=d%> <input
-					type="radio" name="radio"> <span class="checkmark"></span>
+			<div id="options">
+				<label class="options" id="display_a">A) <%=a%>
+				</label> <label class="options" id="display_b">B) <%=b%>
+				</label> <label class="options" id="display_c">C) <%=c%>
+				</label> <label class="options" id="display_d">D) <%=d%>
 				</label>
 			</div>
 		</div>
@@ -201,38 +205,15 @@ body {
 	i++;
 	}
 	%>
+	<div
+		style="display: none; padding-top: 10px; width: 100px; margin: 0 auto;"
+		id="finishbtn">
+		<a href="Scoreboard" class="btn btn-success">Finish</a>
+	</div>
 	<script>
 		showQuestion(0);
 	</script>
 
-	<!-- Question Start -->
-	<!-- <div class="container mt-sm-5 my-1">
-		<div class="question ml-sm-5 pl-sm-5 pt-2">
-			<div class="py-2 h5">
-				<b>Q. which option best describes your job role?</b>
-			</div>
-			<div class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
-				<label class="options">Small Business Owner or Employee <input
-					type="radio" name="radio"> <span class="checkmark"></span>
-				</label> <label class="options">Nonprofit Owner or Employee <input
-					type="radio" name="radio"> <span class="checkmark"></span>
-				</label> <label class="options">Journalist or Activist <input
-					type="radio" name="radio"> <span class="checkmark"></span>
-				</label> <label class="options">Other <input type="radio"
-					name="radio"> <span class="checkmark"></span>
-				</label>
-			</div>
-		</div>
-		<div class="d-flex align-items-center pt-3">
-			<div id="prev">
-				<button class="btn btn-primary">Previous</button>
-			</div>
-			<div class="ml-auto mr-sm-5">
-				<button class="btn btn-success">Next</button>
-			</div>
-		</div>
-	</div> -->
-	<!-- Question End -->
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

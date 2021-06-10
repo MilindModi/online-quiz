@@ -49,8 +49,8 @@
 
 		<div class="row mt-5">
 			<div class="col-md-12">
-				<table class="table table-hover table-light table-bordered">
-					<thead>
+				<table class="table table-hover table-light table-borderless" style="width: 60%; margin: 0 auto;'">
+					<thead class="thead-dark">
 						<tr>
 							<th scope="col">No.</th>
 							<th scope="col">Quiz Name</th>
@@ -86,7 +86,7 @@
 						<tr>
 							<th scope="row"><%=i++%></th>
 							<td><%=quizname%></td>
-							<td><a class="btn btn-warning"
+							<td><a class="btn btn-info"
 								href="quiz.jsp?id=<%=quizid%>&name=<%=quizname%>">View</a></td>
 								<td><a class="btn btn-danger"
 								href="DeleteQuiz?id=<%=quizid%>">Delete</a></td>

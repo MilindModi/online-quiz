@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2021 at 03:45 PM
+-- Generation Time: Jun 11, 2021 at 12:06 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -40,25 +40,26 @@ CREATE TABLE `questions` (
   `type` varchar(10) NOT NULL COMMENT 'MCQ, Open, FIB',
   `correctPoints` int(2) NOT NULL DEFAULT 1,
   `minusPoints` int(2) NOT NULL DEFAULT 0,
-  `timestamp` datetime NOT NULL
+  `timestamp` datetime NOT NULL,
+  `qno` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `questions`
 --
 
-INSERT INTO `questions` (`questionid`, `question`, `quizid`, `option1`, `option2`, `option3`, `option4`, `correctanswer`, `type`, `correctPoints`, `minusPoints`, `timestamp`) VALUES
-('4ViEy2', 'Question 1', 825122, 'D', 'B', 'C', 'A', '4', 'MCQ', 1, 0, '2021-06-10 01:04:30'),
-('7BNTU4', 'Question 3', 641396, 'Op1', 'Op2', 'Op3', 'Op4', '2', 'MCQ', 1, 0, '2021-06-10 13:43:32'),
-('aCcpPC', 'Question 1', 641396, 'A', 'B', 'C', 'D', '1', 'MCQ', 1, 0, '2021-06-10 12:28:46'),
-('bpM7PP', 'Question 2', 641396, 'A', 'B', 'C', 'D', '2', 'MCQ', 1, 0, '2021-06-10 12:28:57'),
-('CuS2Y4', 'Question 5', 641396, 'D', 'C', 'B', 'A', '4', 'MCQ', 1, 0, '2021-06-10 15:14:46'),
-('CyOV2d', 'Question 3', 825122, 'A', 'B', 'C', 'D', '2', 'MCQ', 1, 0, '2021-06-10 11:08:36'),
-('dliASA', 'Question 1', 143982, 'A', 'B', 'C', 'D', '1', 'MCQ', 1, 0, '2021-06-10 17:03:06'),
-('hN8bd0', 'Question 1', 628732, 'A', 'B', 'C', 'D', '3', 'MCQ', 1, 0, '2021-06-10 10:23:22'),
-('jGgRSd', 'Question 2', 143982, 'A', 'B', 'C', 'D', '4', 'MCQ', 1, 0, '2021-06-10 17:03:25'),
-('SXpbcA', 'Question 2', 667623, 'Op1', 'Op3', 'Op4', 'Op2', '4', 'MCQ', 1, 0, '2021-06-10 12:25:03'),
-('TkXEs1', 'Question 4', 641396, 'ABCD', 'EFGH', 'IJKL', 'MNOP', '1', 'MCQ', 1, 0, '2021-06-10 13:49:42');
+INSERT INTO `questions` (`questionid`, `question`, `quizid`, `option1`, `option2`, `option3`, `option4`, `correctanswer`, `type`, `correctPoints`, `minusPoints`, `timestamp`, `qno`) VALUES
+('4ViEy2', 'Question 1', 825122, 'D', 'B', 'C', 'A', '4', 'MCQ', 1, 0, '2021-06-10 01:04:30', 0),
+('7BNTU4', 'Question 3', 641396, 'Op1', 'Op2', 'Op3', 'Op4', '2', 'MCQ', 1, 0, '2021-06-10 13:43:32', 0),
+('aCcpPC', 'Question 1', 641396, 'A', 'B', 'C', 'D', '1', 'MCQ', 1, 0, '2021-06-10 12:28:46', 0),
+('bpM7PP', 'Question 2', 641396, 'A', 'B', 'C', 'D', '2', 'MCQ', 1, 0, '2021-06-10 12:28:57', 0),
+('CuS2Y4', 'Question 5', 641396, 'D', 'C', 'B', 'A', '4', 'MCQ', 1, 0, '2021-06-10 15:14:46', 0),
+('CyOV2d', 'Question 3', 825122, 'A', 'B', 'C', 'D', '2', 'MCQ', 1, 0, '2021-06-10 11:08:36', 0),
+('dliASA', 'Question 1', 143982, 'A', 'B', 'C', 'D', '1', 'MCQ', 1, 0, '2021-06-10 17:03:06', 0),
+('hN8bd0', 'Question 1', 628732, 'A', 'B', 'C', 'D', '3', 'MCQ', 1, 0, '2021-06-10 10:23:22', 0),
+('jGgRSd', 'Question 2', 143982, 'A', 'B', 'C', 'D', '4', 'MCQ', 1, 0, '2021-06-10 17:03:25', 0),
+('SXpbcA', 'Question 2', 667623, 'Op1', 'Op3', 'Op4', 'Op2', '4', 'MCQ', 1, 0, '2021-06-10 12:25:03', 0),
+('TkXEs1', 'Question 4', 641396, 'ABCD', 'EFGH', 'IJKL', 'MNOP', '1', 'MCQ', 1, 0, '2021-06-10 13:49:42', 0);
 
 -- --------------------------------------------------------
 
@@ -79,6 +80,7 @@ CREATE TABLE `quiz` (
 
 INSERT INTO `quiz` (`quizid`, `quizname`, `username`, `timestamp`) VALUES
 (143982, 'Quiz 2', 'pradeep', '2021-06-10 14:48:27'),
+(332637, 'Quiz 1', 'pradeep', '2021-06-10 22:30:32'),
 (641396, 'Quiz 3', 'pradeep', '0000-00-00 00:00:00'),
 (667623, 'Quiz 1 - Milind Modi', 'milind', '2021-06-10 12:24:19');
 

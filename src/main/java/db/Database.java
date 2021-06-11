@@ -28,8 +28,8 @@ public class Database {
 				String c = rs.getString("option3");
 				String d = rs.getString("option4");
 				String ca = rs.getString("correctanswer");
-				
-				q = new MCQ(qname, new String[] {a,b,c,d}, ca);
+
+				q = new MCQ(qname, new String[] { a, b, c, d }, ca);
 			}
 
 		} catch (Exception e) {
@@ -37,7 +37,7 @@ public class Database {
 		}
 		return q;
 	}
-	
+
 	public static boolean quizExists(String quizid) {
 		int count = 0;
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -134,17 +134,17 @@ public class Database {
 		}
 	}
 
-	public static void addQuestion(Question q, Integer quizid) {
+	public static void addQuestion(Question q, Integer quizid, int qno) {
 		MCQ question = (MCQ) q;
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
 			String[] answers = question.getAnswers();
 			stmt.executeUpdate(
-					"INSERT INTO questions (questionid, question, quizid, option1, option2, option3, option4, correctanswer, type, correctPoints, minusPoints, timestamp) VALUES('"
+					"INSERT INTO questions (questionid, question, quizid, option1, option2, option3, option4, correctanswer, type, correctPoints, minusPoints, timestamp, qno) VALUES('"
 							+ Util.getUniqueID(6) + "', '" + question.getQuestion() + "', '" + quizid + "', '"
 							+ answers[0] + "', '" + answers[1] + "', '" + answers[2] + "', '" + answers[3] + "', '"
 							+ question.getCorrectAnswer() + "', 'MCQ', '1', '0', '" + java.time.LocalDateTime.now()
-							+ "')");
+							+ "', '" + qno + "')");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

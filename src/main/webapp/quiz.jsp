@@ -284,7 +284,7 @@ table.table .avatar {
 	function setValueById(id, value) {
 		document.getElementById(id).value = value;
 	}
-	
+
 	function loadData(qname, a, b, c, d, ca) {
 		document.getElementById("update_qname").value = qname;
 		document.getElementById("update_a").value = a;
@@ -293,7 +293,7 @@ table.table .avatar {
 		document.getElementById("update_d").value = d;
 		document.getElementById("update_ca").value = ca;
 	}
-	
+
 	function update(id, value, qname, a, b, c, d, ca) {
 		setValueById(id, value);
 		loadData(qname, a, b, c, d, ca);
@@ -302,7 +302,7 @@ table.table .avatar {
 
 </head>
 <body>
-<jsp:include page="navbar.jsp" />
+	<jsp:include page="navbar.jsp" />
 	<div class="container-xl">
 		<div class="table-responsive">
 			<div class="table-wrapper">
@@ -310,17 +310,19 @@ table.table .avatar {
 					<div class="row">
 						<div class="col-sm-6">
 							<h2>
-								<b>
-								<%=request.getParameter("name") %>
+								<b> <%=request.getParameter("name")%>
 								</b>
 							</h2>
 						</div>
 						<div class="col-sm-6">
-							<a href="#addQuestionModal" class="btn btn-success"
-								data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>
-									New Question</span></a>
-									<a href="presentation.jsp?id=<%=request.getParameter("id")%>" class="btn btn-success"><i class="fa fa-desktop" aria-hidden="true"></i> <span>
-									Present</span></a>
+							<a href="#uploadCSVModal" class="btn btn-success"
+								data-toggle="modal"><i class="fa fa-file" aria-hidden="true"></i>
+								<span> Upload Questions (CSV)</span></a> <a href="#addQuestionModal"
+								class="btn btn-success" data-toggle="modal"><i
+								class="material-icons">&#xE147;</i> <span> New Question</span></a> <a
+								href="presentation.jsp?id=<%=request.getParameter("id")%>"
+								class="btn btn-success"><i class="fa fa-desktop"
+								aria-hidden="true"></i> <span> Present</span></a>
 						</div>
 					</div>
 				</div>
@@ -351,7 +353,7 @@ table.table .avatar {
 						Class.forName("com.mysql.cj.jdbc.Driver");
 						con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
 						stmt = con.createStatement();
-						rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='" + quizid + "' ORDER BY timestamp");
+						rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='" + quizid + "' ORDER BY timestamp, qno");
 
 						while (rs.next()) {
 							String qid = rs.getString("questionid");
@@ -368,10 +370,12 @@ table.table .avatar {
 							<td><%=qType%></td>
 							<td><a href="#editQuestionModal" class="edit"
 								data-toggle="modal"><i class="material-icons"
-									data-toggle="tooltip" title="Edit" id="<%=qid%>" onclick="update('update_qsid', '<%=qid%>', '<%=question%>', '<%=a%>', '<%=b%>', '<%=c%>', '<%=d%>', '<%=ca%>')">&#xE254;</i></a> <a
-								href="#deleteQuestionModal" class="delete" data-toggle="modal"><i
-									class="material-icons" data-toggle="tooltip" title="Delete"
-									id="<%=qid%>" onclick="setValueById('delete_qsid', '<%=qid%>')">&#xE872;</i></a></td>
+									data-toggle="tooltip" title="Edit" id="<%=qid%>"
+									onclick="update('update_qsid', '<%=qid%>', '<%=question%>', '<%=a%>', '<%=b%>', '<%=c%>', '<%=d%>', '<%=ca%>')">&#xE254;</i></a>
+								<a href="#deleteQuestionModal" class="delete"
+								data-toggle="modal"><i class="material-icons"
+									data-toggle="tooltip" title="Delete" id="<%=qid%>"
+									onclick="setValueById('delete_qsid', '<%=qid%>')">&#xE872;</i></a></td>
 						</tr>
 						<%
 						}
@@ -415,8 +419,8 @@ table.table .avatar {
 								<input type="text" name="d" class="form-control" placeholder="D" />
 							</div>
 							<div class="form-group">
-								<input type="number" min="1" max="4" name="ca" class="form-control"
-									placeholder="Correct Answer" required />
+								<input type="number" min="1" max="4" name="ca"
+									class="form-control" placeholder="Correct Answer" required />
 							</div>
 
 							<div class="form-group">
@@ -445,26 +449,28 @@ table.table .avatar {
 						<div class="card-body">
 
 							<div class="form-group">
-								<input type="text" name="update_qname" id="update_qname" class="form-control"
-									placeholder="Enter Question" required />
+								<input type="text" name="update_qname" id="update_qname"
+									class="form-control" placeholder="Enter Question" required />
 							</div>
 							<div class="form-group">
-								<input type="text" name="a" id="update_a" class="form-control" placeholder="A"
-									required />
+								<input type="text" name="a" id="update_a" class="form-control"
+									placeholder="A" required />
 							</div>
 							<div class="form-group">
-								<input type="text" name="b" id="update_b" class="form-control" placeholder="B"
-									required />
+								<input type="text" name="b" id="update_b" class="form-control"
+									placeholder="B" required />
 							</div>
 							<div class="form-group">
-								<input type="text" name="c" id="update_c" class="form-control" placeholder="C" />
+								<input type="text" name="c" id="update_c" class="form-control"
+									placeholder="C" />
 							</div>
 							<div class="form-group">
-								<input type="text" name="d" id="update_d" class="form-control" placeholder="D" />
+								<input type="text" name="d" id="update_d" class="form-control"
+									placeholder="D" />
 							</div>
 							<div class="form-group">
-								<input type="number" min="1" max="4" name="ca" id="update_ca" class="form-control"
-									placeholder="Correct Answer" required />
+								<input type="number" min="1" max="4" name="ca" id="update_ca"
+									class="form-control" placeholder="Correct Answer" required />
 							</div>
 
 							<div class="form-group">
@@ -483,7 +489,7 @@ table.table .avatar {
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form method="POST" action="DeleteQuestion">
-				<input type="hidden" id="delete_qsid" name="id">
+					<input type="hidden" id="delete_qsid" name="id">
 					<div class="modal-header">
 						<h4 class="modal-title">Delete Question</h4>
 						<button type="button" class="close" data-dismiss="modal"
@@ -504,6 +510,62 @@ table.table .avatar {
 			</div>
 		</div>
 	</div>
+
+	<!-- Upload CSV Modal HTML -->
+	<div id="uploadCSVModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="card custom-card">
+
+					<form method="post" action="UploadQuestionsCSV"
+						enctype="multipart/form-data" id="uploadCSVForm">
+
+						<div class="card-header">
+							<h2 class="custom-heading">Upload Questions as CSV</h2>
+						</div>
+
+						<div class="card-body">
+							<input type="hidden" value="<%=quizid%>" name="quizid">
+
+							<div class="form-group">
+								<input type="file" name="questionsFile" class="form-control"
+									required />
+							</div>
+
+							<div class="form-group">
+								<input type="submit" id="uploadSubmit" name="uploadSubmit" value="Upload"
+									class="btn btn-success bb">
+							</div>
+
+							<div class="progress" id="pbar" style="display: none;">
+								<div id="progressBar" class="progress-bar" role="progressbar"
+									style="width: 0%;" aria-valuenow="25"
+									aria-valuemin="0" aria-valuemax="100">Uploading...</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		document.getElementById("uploadCSVForm").addEventListener("submit", (e) => {
+			e.preventDefault();
+			document.getElementById("pbar").style.display="block";
+			document.getElementById("uploadSubmit").disabled=true;
+			var i = 0;
+			var interval = setInterval(() => { 
+				if(i>100) {
+					clearInterval(interval);
+					document.getElementById("uploadSubmit").disabled = false;
+					document.getElementById("pbar").style.display="none";
+				}
+				i+=5;
+				document.getElementById("progressBar").style.width = i+"%";
+			}, 100);
+			setTimeout(() => document.getElementById("uploadCSVForm").submit(), 3000)
+		}, true);
+	</script>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 public class MCQ extends Question {
 	private String[] answers;
-	private int correctAnswer;
+	private String correctAnswer;
 
-	public MCQ(String question, String[] answers, int correctAnswer) {
+	public MCQ(String question, String[] answers, String correctAnswer) {
 		super(question, QuestionType.MCQ);
 		this.answers = answers;
 		this.correctAnswer = correctAnswer;
@@ -21,7 +21,7 @@ public class MCQ extends Question {
 		return Arrays.copyOf(answers, 4);
 	}
 	
-	public int getCorrectAnswer() {
+	public String getCorrectAnswer() {
 		return correctAnswer;
 	}
 }

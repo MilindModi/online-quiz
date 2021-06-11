@@ -16,11 +16,78 @@ public class Database {
 	static final String USER = "root";
 	static final String PASS = "";
 
+	public static void submitAnswer(String qid, String username, String selected, int isCorrect) {
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			stmt.executeUpdate("INSERT INTO scoreboard (questionid, username, selected, isCorrect) VALUES('" + qid
+					+ "', '" + username + "', '" + selected + "', '" + isCorrect + "')");
+		} catch (Exception e) {
+			System.out.println("DATABASE ERROR");
+			e.printStackTrace();
+		}
+	}
+
+	public static Question getQuestion(String questionid) {
+		Question q = null;
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			ResultSet rs = stmt.executeQuery("SELECT * FROM questions WHERE questionid='" + questionid + "'");
+			if (rs.next()) {
+				String qname = rs.getString("question");
+				String a = rs.getString("option1");
+				String b = rs.getString("option2");
+				String c = rs.getString("option3");
+				String d = rs.getString("option4");
+				String ca = rs.getString("correctanswer");
+
+				q = new MCQ(qname, new String[] { a, b, c, d }, ca);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return q;
+	}
+
+	public static boolean quizExists(String quizid) {
+		int count = 0;
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			ResultSet rs = stmt.executeQuery("SELECT COUNT(quizid) as count FROM quiz WHERE quizid='" + quizid + "'");
+			if (rs.next()) {
+				count = rs.getInt("count");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count > 0;
+	}
+
+	public static int[] getPerQuestionResult(String quesid) {
+		int[] score = new int[2];
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			ResultSet rs = stmt.executeQuery(
+					"SELECT COUNT(CASE WHEN isCorrect = 0 then isCorrect end) as wrong, COUNT(CASE WHEN isCorrect = 1 then isCorrect end) as correct from scoreboard where questionid = '"
+							+ quesid + "'");
+			while (rs.next()) {
+				score[0] = rs.getInt("correct");
+				score[1] = rs.getInt("wrong");
+			}
+			System.out.println(score[0]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return score;
+	}
+
 	public static String getCorrectAnswer(String qid) {
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
 			ResultSet rs = stmt.executeQuery("SELECT correctanswer FROM questions WHERE questionid='" + qid + "'");
-			if(rs.next()) return rs.getString("correctanswer");
+			if (rs.next())
+				return rs.getString("correctanswer");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -31,14 +98,15 @@ public class Database {
 		List<Score> scores = new ArrayList<>();
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
-			String sql = "SELECT s.username, SUM(s.isCorrect) AS score FROM quiz qu, scoreboard s WHERE qu.quizid='"
+			String sql = "SELECT s.username, SUM(s.isCorrect) AS score, (SELECT COUNT(questionid) from questions where quizid='"+quizid+"') as total FROM quiz qu, scoreboard s WHERE qu.quizid='"
 					+ quizid + "' and s.questionid IN(SELECT questionid FROM questions WHERE quizid='" + quizid
 					+ "') GROUP BY username ORDER BY score DESC;";
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				String username = rs.getString("username");
 				int score = rs.getInt("score");
-				scores.add(new Score(username, score));
+				int total = rs.getInt("total");
+				scores.add(new Score(username, score, total));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,17 +146,17 @@ public class Database {
 		}
 	}
 
-	public static void addQuestion(Question q, Integer quizid) {
+	public static void addQuestion(Question q, Integer quizid, int qno) {
 		MCQ question = (MCQ) q;
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
 			String[] answers = question.getAnswers();
 			stmt.executeUpdate(
-					"INSERT INTO questions (questionid, question, quizid, option1, option2, option3, option4, correctanswer, type, correctPoints, minusPoints, timestamp) VALUES('"
+					"INSERT INTO questions (questionid, question, quizid, option1, option2, option3, option4, correctanswer, type, correctPoints, minusPoints, timestamp, qno) VALUES('"
 							+ Util.getUniqueID(6) + "', '" + question.getQuestion() + "', '" + quizid + "', '"
 							+ answers[0] + "', '" + answers[1] + "', '" + answers[2] + "', '" + answers[3] + "', '"
 							+ question.getCorrectAnswer() + "', 'MCQ', '1', '0', '" + java.time.LocalDateTime.now()
-							+ "')");
+							+ "', '" + qno + "')");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

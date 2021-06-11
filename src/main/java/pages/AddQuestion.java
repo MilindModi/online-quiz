@@ -25,8 +25,8 @@ public class AddQuestion extends HttpServlet {
 		if (session.getAttribute("username") != null) {
 			String[] answers = { request.getParameter("a"), request.getParameter("b"), request.getParameter("c"),
 					request.getParameter("d") };
-			MCQ q = new MCQ(request.getParameter("q"), answers, Integer.parseInt(request.getParameter("ca")));
-			Database.addQuestion(q, Integer.parseInt(request.getParameter("id")));
+			MCQ q = new MCQ(request.getParameter("q"), answers, request.getParameter("ca"));
+			Database.addQuestion(q, Integer.parseInt(request.getParameter("id")), -1);
 		}
 		
 		String referer = request.getHeader("referer");

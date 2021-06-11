@@ -27,7 +27,7 @@ public class UpdateQuestion extends HttpServlet {
 			String question = request.getParameter("update_qname");
 			String[] answers = { request.getParameter("a"), request.getParameter("b"), request.getParameter("c"),
 					request.getParameter("d") };
-			MCQ q = new MCQ(question, answers, Integer.parseInt(request.getParameter("ca")));
+			MCQ q = new MCQ(question, answers, request.getParameter("ca"));
 			Database.updateQuestion(questionid, q);
 		}
 

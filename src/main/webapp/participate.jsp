@@ -138,6 +138,44 @@ body {
 	var ws5 = new WebSocket(wsUrl + window.location.host
 			+ "/OnlineQuiz/SubmitAnswer");
 	var currentQuestion;
+	
+	var ws2 = new WebSocket(wsUrl + window.location.host
+			+ "/OnlineQuiz/GetDetails");
+
+	ws2.onmessage = function(event) {
+		var result = event.data.split(',');
+		if(result[0].indexOf(":") == -1) {
+			google.charts.load('current', {'packages':['corechart']});
+			google.charts.setOnLoadCallback(drawChart);
+			function drawChart() {
+				var data = google.visualization.arrayToDataTable([
+					['Result', 'Total'],
+					['Correct Answers', parseInt(result[0])],
+					['Wrong Answers', parseInt(result[1])]
+					]);
+				
+				var options = {
+					title: 'Score in percentage'
+				};
+			
+				var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+				chart.draw(data, options);
+			}
+		}
+			else {
+				console.log(result);
+				document.getElementById("teebodee").innerHTML = "";
+				for(let i = 0; i < result.length; i++) {
+					let j = i + 1;
+					var dat = result[i].split(":");
+					document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'/'+dat[2]+'</td></tr>';				
+				}
+			}
+	};
+	
+	ws2.onerror = function(event) {
+		console.log("Error ", event)
+	}
 
 	ws.onmessage = function(event) {
 		if (event.data.indexOf("nextquestion") > -1) {
@@ -159,6 +197,7 @@ body {
 		if (event.data.indexOf("scoreboard") > -1) {
 			var strs = event.data.split(",");
 			if (strs[1] == quizid) {
+				document.getElementById("crtans").innerHTML = "<b>Correct Answer: " + currentQuestion['ca'] + "</b>";
 				$("#scoreboard").modal("show");
 			}
 			return;
@@ -175,6 +214,9 @@ body {
 			document.getElementById("disp_b").innerHTML = question['b'];
 			document.getElementById("disp_c").innerHTML = question['c'];
 			document.getElementById("disp_d").innerHTML = question['d'];
+			if(question['isLast']) {
+				document.getElementById("nextqbtn").innerHTML = '<a href="leaderboard.jsp?id='+quizid+'" class="btn btn-info btn-lg" role="alert">Display Results</a>';
+			}
 		}
 	};
 
@@ -214,7 +256,7 @@ body {
 	<jsp:include page="navbar.jsp" />
 	<jsp:include page="scoreboard.jsp" />
 	<script>
-		document.getElementById("nextqbtn").innerHTML = '<div style="text-align: center;" class="alert alert-info" role="alert">Waiting for next question...</div>';
+		document.getElementById("nextqbtn").innerHTML = '<div style="text-align: center;" class="alert alert-info" role="alert">Waiting for presenter...</div>';
 	</script>
 
 	<%

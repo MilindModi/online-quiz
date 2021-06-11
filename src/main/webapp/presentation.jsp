@@ -136,6 +136,47 @@ var quiz_id = <%=request.getParameter("id")%>
 	}
 	var ws = new WebSocket(wsUrl + window.location.host
 			+ "/OnlineQuiz/GetAnswer");
+	
+	var ws9 = new WebSocket(wsUrl + window.location.host
+			+ "/OnlineQuiz/GetDetails");
+	
+	var ws20 = new WebSocket(wsUrl + window.location.host
+			+ "/OnlineQuiz/GetDetails");
+
+	ws20.onmessage = function(event) {
+		var result = event.data.split(',');
+		if(result[0].indexOf(":") == -1) {
+			google.charts.load('current', {'packages':['corechart']});
+			google.charts.setOnLoadCallback(drawChart);
+			function drawChart() {
+				var data = google.visualization.arrayToDataTable([
+					['Result', 'Total'],
+					['Correct Answers', parseInt(result[0])],
+					['Wrong Answers', parseInt(result[1])]
+					]);
+				
+				var options = {
+					title: 'Score in percentage'
+				};
+			
+				var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+				chart.draw(data, options);
+			}
+		}
+			else {
+				console.log(result);
+				document.getElementById("teebodee").innerHTML = "";
+				for(let i = 0; i < result.length; i++) {
+					let j = i + 1;
+					var dat = result[i].split(":");
+					document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'/'+dat[2]+'</td></tr>';				
+				}
+			}
+	};
+	
+	ws20.onerror = function(event) {
+		console.log("Error ", event)
+	}
 
 	ws.onmessage = function(event) {
 		var mySpan = document.getElementById("crtans");
@@ -194,7 +235,7 @@ var quiz_id = <%=request.getParameter("id")%>
 		var msg = qid;
 		if (msg) {
 			ws.send(msg);
-			ws2.send(msg);
+			ws20.send(msg);
 		}
 		document.getElementById("crtans").value = "";
 	}
@@ -207,14 +248,20 @@ var quiz_id = <%=request.getParameter("id")%>
 		var newloc = loc + '&qid=' + qid;
 		window.history.pushState({}, newloc, loc);
 		alert("HERE"); */
-		ws2.send('get'+quiz_id);
+		ws20.send('get'+quiz_id);
 		sendMsg(val);
 		sendMessage("scoreboard,"+"<%=request.getParameter("id")%>");
+		
 		if(isLast) {
-	var nextbtn = document.getElementById("nextqbtn");
-		nextbtn.innerHTML = '<a href="Scoreboard" class="btn btn-success bb">Display Results</a>';
+			var nextbtn = document.getElementById("nextqbtn");
+			nextbtn.innerHTML = '<a href="leaderboard.jsp?id='+quiz_id+'" id="disp_btn" class="btn btn-lg btn-success bb">Display Results</a>';
 		}
 	}
+	
+	/* function over(event) {
+		ws9.send("over");
+		alert("Idhar hi atak gye");
+	} */
 	
 	/* function showQuestion(id) {
 		document.getElementById('closeScoreboard').click();
@@ -335,6 +382,10 @@ var quiz_id = <%=request.getParameter("id")%>
 			onclick="test(<%=i - 1%>, true)" class="btn btn-success">Finish</a>
 	</div>
 	<script>
+	var last = qArray[qArray.length-1];
+	last = {...last, "isLast": "true"};
+	qArray[qArray.length-1] = last;
+	
 	function showQuestion(id) {
 		sendMessage("nextquestion,"+"<%=quizid%>");
 		document.getElementById("startpt").style.display = "none";
@@ -352,8 +403,10 @@ var quiz_id = <%=request.getParameter("id")%>
 					var nextbtn = document.getElementById("nextqbtn");
 					nextbtn.innerHTML = '<input type="submit" name="submit" value="Next Question" class="btn btn-success bb" onclick="showQuestion('
 							+ j + ')">';
-				} else
+				} else {
 					document.getElementById("finishbtn").style.display = "block";
+					// document.getElementById("nextqbtn").innerHTML = '<a href="leaderboard.jsp?id='+quiz_id+'" class="btn btn-success bb">Leaderboard</a>';
+				}
 				questions[i].style.display = 'block';
 			} else
 				questions[i].style.display = 'none';

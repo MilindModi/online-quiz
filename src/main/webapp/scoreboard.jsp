@@ -2,7 +2,8 @@
 	<%@page import="models.Score, db.Database"%>
 	<%@page import="javax.servlet.*, javax.servlet.http.*"%>
 <script>
-var ws2 = new WebSocket(wsUrl + window.location.host
+
+/* var ws2 = new WebSocket(wsUrl + window.location.host
 		+ "/OnlineQuiz/GetDetails");
 
 ws2.onmessage = function(event) {
@@ -31,9 +32,10 @@ ws2.onmessage = function(event) {
 			for(let i = 0; i < result.length; i++) {
 				let j = i + 1;
 				var dat = result[i].split(":");
-				document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'</td></tr>';				
+				document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'/'+dat[2]+'</td></tr>';				
 			}
-		}
+		} 
+};*/
 	
 	<%-- document.getElementById("teebodee").innerHTML = "";
 	<% 
@@ -48,11 +50,10 @@ ws2.onmessage = function(event) {
 	<%
 	}
 	%> --%>
-};
 
-ws2.onerror = function(event) {
+/* ws2.onerror = function(event) {
 	console.log("Error ", event)
-}
+} */
 </script>
 
 <!-- Scoreboard Modal HTML -->

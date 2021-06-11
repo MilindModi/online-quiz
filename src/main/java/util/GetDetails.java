@@ -1,5 +1,6 @@
-package util;
+	package util;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.websocket.OnClose;
@@ -25,7 +26,6 @@ public class GetDetails {
 	@OnMessage
 	public void onMessage(String message, Session userSession) {
 		String response = "";
-
 		if (message.startsWith("get")) {
 			String quizid = message.substring(3);
 			List<models.Score> scores = db.Database.getScoreboard(quizid);
@@ -39,7 +39,17 @@ public class GetDetails {
 		}
 
 		for (Session ses : userSessions) {
-			ses.getAsyncRemote().sendText(response);
+			if (ses.isOpen()) {
+		        try {
+					ses.getBasicRemote().sendText(response);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    } else {
+		    	System.out.println("--Closed Session--");
+		    }
+//			ses.getAsyncRemote().sendText(response);
 		}
 	}
 }

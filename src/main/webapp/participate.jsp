@@ -135,6 +135,9 @@ body {
 	}
 	var ws = new WebSocket(wsUrl + window.location.host
 			+ "/OnlineQuiz/SendQuestion");
+	var ws5 = new WebSocket(wsUrl + window.location.host
+			+ "/OnlineQuiz/SubmitAnswer");
+	var currentQuestion;
 
 	ws.onmessage = function(event) {
 		if (event.data.indexOf("nextquestion") > -1) {
@@ -162,6 +165,7 @@ body {
 		}
 
 		const question = JSON.parse(event.data);
+		currentQuestion = question;
 
 		if (question['quizid'] == quizid) {
 			document.getElementById("startpt").style.display = 'none';
@@ -175,6 +179,10 @@ body {
 	};
 
 	ws.onerror = function(event) {
+		console.log("Error ", event)
+	}
+	
+	ws5.onerror = function(event) {
 		console.log("Error ", event)
 	}
 
@@ -194,7 +202,11 @@ body {
 				selectedValue = i + 1;
 			}
 		}
-
+		<%String uname = (String) session.getAttribute("username");%>
+		var isCorrect = selectedValue == currentQuestion['ca'] ? 1: 0;
+		var msg = currentQuestion['qid'] + "," + "<%=uname%>" + "," + selectedValue + "," + isCorrect;
+		console.log("MSG: " + msg);
+		ws5.send(msg);
 	}
 </script>
 </head>
@@ -204,10 +216,12 @@ body {
 	<script>
 		document.getElementById("nextqbtn").innerHTML = '<div style="text-align: center;" class="alert alert-info" role="alert">Waiting for next question...</div>';
 	</script>
+
 	<%
 	String quizid = request.getParameter("id");
 	if (db.Database.quizExists(quizid)) {
 	%>
+
 	<div id="startpt" class="jumbotron" style="text-align: center;">
 		<h3>Please wait for the next question!</h3>
 	</div>
@@ -229,8 +243,9 @@ body {
 					</label>
 					<button id="smbtn" class="btn btn-success btn-lg"
 						onclick="submitAnswer()">Submit</button>
-						<br /><br />
-					<div id="loading" style="display: none; text-align: center;" class="alert alert-info" role="alert">Waiting for results...</div>
+					<br /> <br />
+					<div id="loading" style="display: none; text-align: center;"
+						class="alert alert-info" role="alert">Waiting for results...</div>
 				</div>
 			</div>
 		</div>

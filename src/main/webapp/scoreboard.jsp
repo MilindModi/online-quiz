@@ -1,25 +1,53 @@
+	<%@page import="java.sql.*, java.util.*"%>
+	<%@page import="models.Score, db.Database"%>
+	<%@page import="javax.servlet.*, javax.servlet.http.*"%>
 <script>
 var ws2 = new WebSocket(wsUrl + window.location.host
 		+ "/OnlineQuiz/GetDetails");
 
 ws2.onmessage = function(event) {
 	var result = event.data.split(',');
-	google.charts.load('current', {'packages':['corechart']});
-	google.charts.setOnLoadCallback(drawChart);
-	function drawChart() {
-		var data = google.visualization.arrayToDataTable([
-			['Result', 'Total'],
-			['Correct Answers', parseInt(result[0])],
-			['Wrong Answers', parseInt(result[1])]
-			]);
+	if(result[0].indexOf(":") == -1) {
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+		function drawChart() {
+			var data = google.visualization.arrayToDataTable([
+				['Result', 'Total'],
+				['Correct Answers', parseInt(result[0])],
+				['Wrong Answers', parseInt(result[1])]
+				]);
+			
+			var options = {
+				title: 'Score in percentage'
+			};
 		
-		var options = {
-			title: 'Score in percentage'
-		};
-	
-		var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-		chart.draw(data, options);
+			var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+			chart.draw(data, options);
+		}
 	}
+		else {
+			console.log(result);
+			document.getElementById("teebodee").innerHTML = "";
+			for(let i = 0; i < result.length; i++) {
+				let j = i + 1;
+				var dat = result[i].split(":");
+				document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'</td></tr>';				
+			}
+		}
+	
+	<%-- document.getElementById("teebodee").innerHTML = "";
+	<% 
+	String quizid = request.getParameter("id");
+	List<Score> scores = db.Database.getScoreboard(quizid);
+	Iterator<Score> itr = scores.iterator();
+	int i = 1;
+	while (itr.hasNext()) {
+		Score s = itr.next();
+	%>
+	document.getElementById("teebodee").innerHTML += '<tr><th scope="row"><%=i++%></th><td><%=s.username%></td><td><%=s.score%></td></tr>';
+	<%
+	}
+	%> --%>
 };
 
 ws2.onerror = function(event) {
@@ -52,8 +80,8 @@ ws2.onerror = function(event) {
 										<th scope="col">Score</th>
 									</tr>
 								</thead>
-								<tbody>
-									<%@page import="java.sql.*, java.util.*"%>
+								<tbody id="teebodee">
+									<%-- <%@page import="java.sql.*, java.util.*"%>
 									<%@page import="models.Score, db.Database"%>
 									<%@page import="javax.servlet.*, javax.servlet.http.*"%>
 
@@ -72,7 +100,7 @@ ws2.onerror = function(event) {
 									</tr>
 									<%
 									}
-									%>
+									%> --%>
 								</tbody>
 							</table>
 						</div>

@@ -127,6 +127,7 @@ body {
 </style>
 <%@page import="db.Database"%>
 <script>
+var quiz_id = <%=request.getParameter("id")%>
 	var wsUrl;
 	if (window.location.protocol == 'http:') {
 		wsUrl = 'ws://';
@@ -206,6 +207,7 @@ body {
 		var newloc = loc + '&qid=' + qid;
 		window.history.pushState({}, newloc, loc);
 		alert("HERE"); */
+		ws2.send('get'+quiz_id);
 		sendMsg(val);
 		sendMessage("scoreboard,"+"<%=request.getParameter("id")%>");
 		if(isLast) {

@@ -16,6 +16,17 @@ public class Database {
 	static final String USER = "root";
 	static final String PASS = "";
 
+	public static void submitAnswer(String qid, String username, String selected, int isCorrect) {
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			stmt.executeUpdate("INSERT INTO scoreboard (questionid, username, selected, isCorrect) VALUES('" + qid
+					+ "', '" + username + "', '" + selected + "', '" + isCorrect + "')");
+		} catch (Exception e) {
+			System.out.println("DATABASE ERROR");
+			e.printStackTrace();
+		}
+	}
+
 	public static Question getQuestion(String questionid) {
 		Question q = null;
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);

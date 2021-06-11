@@ -8,4 +8,9 @@ public class Score {
 		this.username = username;
 		this.score = score;
 	}
+
+	@Override
+	public String toString() {
+		return username + ":" + score;
+	}
 }

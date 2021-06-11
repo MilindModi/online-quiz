@@ -1,3 +1,32 @@
+<script>
+var ws2 = new WebSocket(wsUrl + window.location.host
+		+ "/OnlineQuiz/GetDetails");
+
+ws2.onmessage = function(event) {
+	var result = event.data.split(',');
+	google.charts.load('current', {'packages':['corechart']});
+	google.charts.setOnLoadCallback(drawChart);
+	function drawChart() {
+		var data = google.visualization.arrayToDataTable([
+			['Result', 'Total'],
+			['Correct Answers', parseInt(result[0])],
+			['Wrong Answers', parseInt(result[1])]
+			]);
+		
+		var options = {
+			title: 'Score in percentage'
+		};
+	
+		var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+		chart.draw(data, options);
+	}
+};
+
+ws2.onerror = function(event) {
+	console.log("Error ", event)
+}
+</script>
+
 <!-- Scoreboard Modal HTML -->
 <div id="scoreboard" class="modal custom-modal fade">
 	<div class="modal-dialog" style="max-width: 70%!important;">

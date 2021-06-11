@@ -12,7 +12,7 @@ import models.questions.*;
 @ServerEndpoint("/SendQuestion")
 public class SendQuestion {
 	private static Set<Session> userSessions = Collections.newSetFromMap(new ConcurrentHashMap<Session, Boolean>());
-
+	
 	@OnOpen
 	public void onOpen(Session curSession) {
 		userSessions.add(curSession);

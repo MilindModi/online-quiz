@@ -11,6 +11,8 @@
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
 @import
 	url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap')
@@ -26,7 +28,7 @@ body {
 	background-color: #333
 }
 
-.container {
+.container-question {
 	background-color: #555;
 	color: #ddd;
 	border-radius: 10px;
@@ -121,53 +123,114 @@ body {
 }
 </style>
 <script type="text/javascript">
+	var quizid =
+<%=request.getParameter("id")%>
+	;
+	console.log(quizid);
+	var wsUrl;
+	if (window.location.protocol == 'http:') {
+		wsUrl = 'ws://';
+	} else {
+		wsUrl = 'wss://';
+	}
+	var ws = new WebSocket(wsUrl + window.location.host
+			+ "/OnlineQuiz/SendQuestion");
 
-    var wsUrl;
-    if (window.location.protocol == 'http:') {
-        wsUrl = 'ws://';
-    } else {
-        wsUrl = 'wss://';
-    }
-    var ws = new WebSocket(wsUrl + window.location.host + "/OnlineQuiz/SendQuestion");
-    
-    ws.onmessage = function(event) {
-      console.log(event.data);
-      <%@page import="models.questions.*"%>
-    };
+	ws.onmessage = function(event) {
+		if (event.data.indexOf("nextquestion") > -1) {
+			var strs = event.data.split(",");
+			if (strs[1] == quizid) {
+				$("#scoreboard").modal("hide");
+				document.getElementById("smbtn").disabled = false;
+				document.getElementById("loading").style.display = "none";
+				var btns = document.getElementsByName("radio");
+				for (let i = 0; i < btns.length; i++) {
+					if (btns[i].checked) {
+						btns[i].checked = false;
+					}
+				}
+			}
+			return;
+		}
 
-    ws.onerror = function(event){
-        console.log("Error ", event)
-    } 
-    
-    function sendMsg(msg) {
-        if(msg)
-        {
-            ws.send(msg);
-        }
-    }
+		if (event.data.indexOf("scoreboard") > -1) {
+			var strs = event.data.split(",");
+			if (strs[1] == quizid) {
+				$("#scoreboard").modal("show");
+			}
+			return;
+		}
+
+		const question = JSON.parse(event.data);
+
+		if (question['quizid'] == quizid) {
+			document.getElementById("startpt").style.display = 'none';
+			document.getElementById("qdata").style.display = 'block';
+			document.getElementById("disp_qname").innerHTML = question['qname'];
+			document.getElementById("disp_a").innerHTML = question['a'];
+			document.getElementById("disp_b").innerHTML = question['b'];
+			document.getElementById("disp_c").innerHTML = question['c'];
+			document.getElementById("disp_d").innerHTML = question['d'];
+		}
+	};
+
+	ws.onerror = function(event) {
+		console.log("Error ", event)
+	}
+
+	function sendMsg(msg) {
+		if (msg) {
+			ws.send(msg);
+		}
+	}
+
+	function submitAnswer() {
+		document.getElementById("smbtn").disabled = true;
+		document.getElementById("loading").style.display = "block";
+		var selectedValue = 0;
+		var btns = document.getElementsByName("radio");
+		for (let i = 0; i < btns.length; i++) {
+			if (btns[i].checked) {
+				selectedValue = i + 1;
+			}
+		}
+
+	}
 </script>
 </head>
 <body onload="sendMsg('')">
+	<jsp:include page="navbar.jsp" />
+	<jsp:include page="scoreboard.jsp" />
+	<script>
+		document.getElementById("nextqbtn").innerHTML = '<div style="text-align: center;" class="alert alert-info" role="alert">Waiting for next question...</div>';
+	</script>
 	<%
-	String quizid = request.getParameter("quizid");
+	String quizid = request.getParameter("id");
 	if (db.Database.quizExists(quizid)) {
 	%>
-	<div>
-		<div class="container mt-sm-5 my-1">
+	<div id="startpt" class="jumbotron" style="text-align: center;">
+		<h3>Please wait for the next question!</h3>
+	</div>
+	<div id="qdata" style="display: none;">
+		<div class="container container-question mt-sm-5 my-1">
 			<div class="question ml-sm-5 pl-sm-5 pt-2">
 				<div class="py-2 h5">
-					<b>Q. which option best describes your job role?</b>
+					<b id="disp_qname"></b>
 				</div>
 				<div class="" id="options">
-					<label class="options">Small Business Owner or Employee <input
+					<label class="options"><span id="disp_a"></span><input
 						type="radio" name="radio"> <span class="checkmark"></span>
-					</label> <label class="options">Nonprofit Owner or Employee <input
+					</label> <label class="options"><span id="disp_b"></span><input
 						type="radio" name="radio"> <span class="checkmark"></span>
-					</label> <label class="options">Journalist or Activist <input
+					</label> <label class="options"><span id="disp_c"></span><input
 						type="radio" name="radio"> <span class="checkmark"></span>
-					</label> <label class="options">Other <input type="radio"
-						name="radio"> <span class="checkmark"></span>
+					</label> <label class="options"><span id="disp_d"></span><input
+						type="radio" name="radio"> <span class="checkmark"></span>
 					</label>
+					<button id="smbtn" class="btn btn-success btn-lg"
+						onclick="submitAnswer()">Submit</button>
+						<br /><br />
+					<div id="loading" style="display: none; text-align: center;" class="alert alert-info" role="alert">Waiting for results...</div>
 				</div>
 			</div>
 		</div>
@@ -176,13 +239,16 @@ body {
 	} else {
 	%>
 	<div style="text-align: center;" class="jumbotron">
-		No such quiz available.<br>
-		<a href="dashboard.jsp" class="btn btn-info">Dashboard</a>
+		No such quiz available.<br> <a href="dashboard.jsp"
+			class="btn btn-info">Dashboard</a>
 	</div>
 	<%
 	}
 	%>
 </body>
+
+
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 	crossorigin="anonymous"></script>

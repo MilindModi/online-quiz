@@ -155,7 +155,7 @@
 
 					<div class="card-body">
 						<div class="form-group">
-							<input type="text" name="quizid" class="form-control"
+							<input type="text" name="id" class="form-control"
 								placeholder="Quiz ID" required />
 						</div>
 

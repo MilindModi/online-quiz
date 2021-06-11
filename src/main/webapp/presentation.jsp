@@ -158,7 +158,7 @@ body {
 
 /*  */	
 	
-	var ws2 = new WebSocket(wsUrl + window.location.host
+	/* var ws2 = new WebSocket(wsUrl + window.location.host
 			+ "/OnlineQuiz/GetDetails");
 
 	ws2.onmessage = function(event) {
@@ -183,7 +183,7 @@ body {
 
 	ws2.onerror = function(event) {
 		console.log("Error ", event)
-	}
+	} */
 	/*  */
 	
 	var qArray = [];
@@ -207,6 +207,7 @@ body {
 		window.history.pushState({}, newloc, loc);
 		alert("HERE"); */
 		sendMsg(val);
+		sendMessage("scoreboard,"+"<%=request.getParameter("id")%>");
 		if(isLast) {
 	var nextbtn = document.getElementById("nextqbtn");
 		nextbtn.innerHTML = '<a href="Scoreboard" class="btn btn-success bb">Display Results</a>';
@@ -253,6 +254,10 @@ body {
 		<h3>
 			Go to OnlineQuiz/Participate and use the code
 			<%=request.getParameter("id")%></h3>
+		<div id="startpt" class="jumbotron">
+			<button class="btn btn-success btn-lg" onclick="showQuestion(0)">Start
+				Presentation</button>
+		</div>
 	</div>
 	<%
 	String quizid;
@@ -288,14 +293,15 @@ body {
 		/*questions.add(new MCQ(question, new String[] { a, b, c, d }, ca));*/
 	%>
 	<script>
-		qArray.splice(0, 0, {
+		qArray.push({
 			"qid": "<%=qid%>",
 			"qname": "<%=question%>",
 			"a": "<%=a%>",
 			"b": "<%=b%>",
-		"c": "<%=c%>",
+			"c": "<%=c%>",
 			"d": "<%=d%>",
-			"ca": "<%=ca%>"
+			"ca": "<%=ca%>",
+			"quizid": "<%=quizid%>"
 		});
 	</script>
 	<div class="container question-container mt-sm-5 my-1" name="questions"
@@ -328,6 +334,8 @@ body {
 	</div>
 	<script>
 	function showQuestion(id) {
+		sendMessage("nextquestion,"+"<%=quizid%>");
+		document.getElementById("startpt").style.display = "none";
 		document.getElementById('closeScoreboard').click();
 		var questions = document.getElementsByName("questions");
 
@@ -353,7 +361,8 @@ body {
 		sendMessage(JSON.stringify(qArray[id]));
 	}
 	
-	setTimeout(() => showQuestion(0), 1000);
+	// setTimeout(() => showQuestion(0), 1000);
+	
 	function sendMessage(msg) {
 		ws3.send(msg);
 	}

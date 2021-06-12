@@ -314,18 +314,41 @@ table.table .avatar {
 								</b>
 							</h2>
 						</div>
+				<%@page import="java.sql.*"%>
+				<%@page import="javax.servlet.*, javax.servlet.http.*"%>
+				<%
+				String quizid;
+				quizid = request.getParameter("id");
+
+				String username;
+				Connection con;
+				Statement stmt;
+				ResultSet rs;
+
+				HttpSession sess;
+				sess = request.getSession();
+				username = (String) sess.getAttribute("username");
+
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
+				stmt = con.createStatement();
+				rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='" + quizid + "' ORDER BY timestamp, qno");
+				%>
 						<div class="col-sm-6">
 							<a href="#uploadCSVModal" class="btn btn-success"
 								data-toggle="modal"><i class="fa fa-file" aria-hidden="true"></i>
 								<span> Upload Questions (CSV)</span></a> <a href="#addQuestionModal"
 								class="btn btn-success" data-toggle="modal"><i
 								class="material-icons">&#xE147;</i> <span> New Question</span></a> <a
-								href="presentation.jsp?id=<%=request.getParameter("id")%>"
-								class="btn btn-success"><i class="fa fa-desktop"
+								href='presentation.jsp?id=<%=request.getParameter("id")%>'
+								class="btn btn-success <%=rs.isBeforeFirst()?"":"disabled" %>"><i class="fa fa-desktop"
 								aria-hidden="true"></i> <span> Present</span></a>
 						</div>
 					</div>
 				</div>
+				<%
+				if(rs.isBeforeFirst()) {
+				%>
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
@@ -334,27 +357,7 @@ table.table .avatar {
 						</tr>
 					</thead>
 					<tbody>
-
-						<%@page import="java.sql.*"%>
-						<%@page import="javax.servlet.*, javax.servlet.http.*"%>
 						<%
-						String quizid;
-						quizid = request.getParameter("id");
-
-						String username;
-						Connection con;
-						Statement stmt;
-						ResultSet rs;
-
-						HttpSession sess;
-						sess = request.getSession();
-						username = (String) sess.getAttribute("username");
-
-						Class.forName("com.mysql.cj.jdbc.Driver");
-						con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
-						stmt = con.createStatement();
-						rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='" + quizid + "' ORDER BY timestamp, qno");
-
 						while (rs.next()) {
 							String qid = rs.getString("questionid");
 							String question = rs.getString("question");
@@ -383,6 +386,13 @@ table.table .avatar {
 
 					</tbody>
 				</table>
+				<%
+				} else {
+					%>
+					<div class="jumboron" style="text-align: center;"><h2>You haven't added any questions yet!</h2></div>
+					<%
+				}
+				%>
 			</div>
 		</div>
 	</div>

@@ -25,17 +25,9 @@ public class Login extends HttpServlet {
 		User user = Database.fetchUser(username, password, pw, session);
 
 		if (session.getAttribute("username") == null || user == null) {
-			pw.println("Login Failed");
-			pw.println("<a HREF=\"index.jsp\">Login Page</a>");
-		} else {
-			/*
-			 * pw.println("<h2>User Name : " + session.getAttribute("username") + "</h2>");
-			 * pw.println("<h2>Date : " + session.getAttribute("date") + "</h2>");
-			 * pw.println("<h2>Time : " + session.getAttribute("time") + "</h2>");
-			 * pw.print("<a href=\"Logout\">Logout</a>");
-			 */
-			response.sendRedirect("dashboard.jsp");
+			pw.println("<script>alert('Invalid Credentials!');</script>");
 		}
+		response.sendRedirect("dashboard.jsp");
 		pw.close();
 	}
 }

@@ -321,7 +321,7 @@ var quiz_id = <%=request.getParameter("id")%>
 	<div
 		style="text-align: center; padding: 20px; width: 800px; margin: 0 auto; color: white;">
 		<h3>
-			Go to OnlineQuiz/Participate and use the code
+			Go to OnlineQuiz/participate.jsp and use the code
 			<%=request.getParameter("id")%></h3>
 		<div id="startpt" class="jumbotron">
 			<button class="btn btn-success btn-lg" onclick="showQuestion(0)"><i class="fa fa-play" aria-hidden="true"></i> Start

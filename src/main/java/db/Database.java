@@ -15,12 +15,11 @@ public class Database {
 	static final String DB_URL = "jdbc:mysql://localhost/online-quiz";
 	static final String USER = "root";
 	static final String PASS = "";
-	
-	
+
 	public static void submitFeedback(String quizid, String username, int rating) {
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
-			stmt.executeUpdate("insert into feedback values('"+ quizid +"','"+ username +"','" + rating + "')");
+			stmt.executeUpdate("insert into feedback values('" + quizid + "','" + username + "','" + rating + "')");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -36,7 +35,6 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-
 
 	public static Question getQuestion(String questionid) {
 		Question q = null;
@@ -109,8 +107,9 @@ public class Database {
 		List<Score> scores = new ArrayList<>();
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
-			String sql = "SELECT s.username, SUM(s.isCorrect) AS score, (SELECT COUNT(questionid) from questions where quizid='"+quizid+"') as total FROM quiz qu, scoreboard s WHERE qu.quizid='"
-					+ quizid + "' and s.questionid IN(SELECT questionid FROM questions WHERE quizid='" + quizid
+			String sql = "SELECT s.username, SUM(s.isCorrect) AS score, (SELECT COUNT(questionid) from questions where quizid='"
+					+ quizid + "') as total FROM quiz qu, scoreboard s WHERE qu.quizid='" + quizid
+					+ "' and s.questionid IN(SELECT questionid FROM questions WHERE quizid='" + quizid
 					+ "') GROUP BY username ORDER BY score DESC;";
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
@@ -199,8 +198,9 @@ public class Database {
 
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
 				Statement stmt = conn.createStatement()) {
-			int result = stmt.executeUpdate("INSERT INTO quiz (quizid, quizname, username, timestamp) VALUES(" + quizid
-					+ ", '" + quizname + "', '" + username + "', '" + java.time.LocalDateTime.now() + "')");
+			// int result =
+			stmt.executeUpdate("INSERT INTO quiz (quizid, quizname, username, timestamp) VALUES(" + quizid + ", '"
+					+ quizname + "', '" + username + "', '" + java.time.LocalDateTime.now() + "')");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

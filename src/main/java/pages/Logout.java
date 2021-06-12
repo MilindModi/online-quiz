@@ -15,10 +15,6 @@ public class Logout extends HttpServlet {
         response.setContentType("text/html");
 
         PrintWriter out = response.getWriter();
-
-//        out.println("<HEAD><TITLE> " + "Logout" + "</TITLE></HEAD><BODY>");
-//        out.println("<P>[<A HREF=\"index.html\">Login Page</A>]");
-//        out.println("<h2> Logged Out Successfully</h2>");
         
         response.sendRedirect("index.jsp");
         out.close();

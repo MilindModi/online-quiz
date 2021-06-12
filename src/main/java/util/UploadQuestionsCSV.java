@@ -32,7 +32,7 @@ public class UploadQuestionsCSV extends HttpServlet {
 		File file = new File(uploadedFilename);
 		try(BufferedReader reader = new BufferedReader(new FileReader(file));) {
 			String line = reader.readLine();
-			int id = Integer.parseInt(quizid);
+			// int id = Integer.parseInt(quizid);
 
 			int i = 1;
 			while ((line = reader.readLine()) != null) {

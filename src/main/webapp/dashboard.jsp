@@ -24,6 +24,34 @@
 	<div class="back">
 		<img src="img/4.jpg" class="bgimg" type="jpg/jpeg">
 	</div>
+	
+	<%@page import="java.sql.*"%>
+		<%@page import="javax.servlet.*, javax.servlet.http.*, models.User"%>
+
+		<%
+		String username;
+		Connection con;
+		Statement stmt, stmt2;
+		ResultSet rs, rs2;
+		User user = null;
+
+		HttpSession sess;
+		sess = request.getSession();
+		username = (String) sess.getAttribute("username");
+
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
+		stmt = con.createStatement();
+		stmt2 = con.createStatement();
+		
+		rs2 = stmt2.executeQuery("SELECT * FROM users WHERE username='"+username+"'");
+		if(rs2.next()) user = new User(username, rs2.getString("name"), rs2.getString("email"));
+		if(user == null) response.sendRedirect("index.jsp");
+		
+		rs = stmt.executeQuery(
+				"SELECT *, (SELECT AVG(rating) FROM feedback WHERE quiz.quizid=quizid) as total FROM quiz WHERE username='" + username + "' ORDER BY timestamp DESC;");
+		int i = 1;
+		%>
 
 	<div class="container-fluid text-center">
 		<div class="row1">
@@ -32,7 +60,7 @@
 					<a class="btn btn-danger" href="Logout"><i
 						class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
 				</p>
-				<h1 class="heading">Dashboard</h1>
+				<h1 class="heading">Welcome, <%=user.name %>!</h1>
 
 			</div>
 		</div>
@@ -54,9 +82,11 @@
 				</a>
 			</div>
 		</div>
-
 		<div class="row mt-5">
 			<div class="col-md-12">
+		<%
+		if(rs.isBeforeFirst()) {
+		%>
 				<table class="table table-hover table-light table-borderless"
 					style="width: 60%; margin: 0 auto;'">
 					<thead class="thead-dark">
@@ -69,33 +99,11 @@
 						</tr>
 					</thead>
 					<tbody>
-
-						<%@page import="java.sql.*"%>
-						<%@page import="javax.servlet.*, javax.servlet.http.*"%>
-
 						<%
-						String username;
-						Connection con;
-						Statement stmt;
-						ResultSet rs;
-
-						HttpSession sess;
-						sess = request.getSession();
-						username = (String) sess.getAttribute("username");
-
-						Class.forName("com.mysql.cj.jdbc.Driver");
-						con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
-						stmt = con.createStatement();
-						rs = stmt.executeQuery(
-								"SELECT *, (SELECT AVG(rating) FROM feedback WHERE quiz.quizid=quizid) as total FROM quiz WHERE username='"
-								+ username + "' ORDER BY timestamp DESC;");
-						int i = 1;
-
 						while (rs.next()) {
 							String quizid = rs.getString("quizid");
 							String quizname = rs.getString("quizname");
 							double total = rs.getDouble("total");
-							System.out.println(total);
 						%>
 						<tr>
 							<th scope="row"><%=i++%></th>
@@ -122,6 +130,13 @@
 			</div>
 		</div>
 	</div>
+		<%
+		} else {
+			%>
+			<div class="jumbotron"><h2>You haven't created any quiz yet!</h2></div>
+			<%
+		}
+		%>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

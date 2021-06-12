@@ -215,7 +215,15 @@ body {
 		if (event.data.indexOf("scoreboard") > -1) {
 			var strs = event.data.split(",");
 			if (strs[1] == quizid) {
-				document.getElementById("crtans").innerHTML = "<b>Correct Answer: " + currentQuestion['ca'] + "</b>";
+				var crtans;
+				switch(currentQuestion['ca']) {
+					case '1': crtans = 'A'; break;
+					case '2': crtans = 'B'; break;
+					case '3': crtans = 'C'; break;
+					case '4': crtans = 'D'; break;
+					default: crtans = ''; break;
+				}
+				document.getElementById("crtans").innerHTML = "<b>Correct Answer: " + crtans + "</b>";
 				$("#scoreboard").modal("show");
 			}
 			return;

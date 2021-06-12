@@ -6,7 +6,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 import db.Database;
-import util.Util;
 
 @WebServlet("/CreateQuiz")
 public class CreateQuiz extends HttpServlet {

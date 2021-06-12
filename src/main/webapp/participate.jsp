@@ -336,7 +336,7 @@ body {
 		<h3><i class="fa fa-hourglass-end" aria-hidden="true"></i> Please wait for the question!</h3>
 	</div>
 	<div id="qdata" style="display: none;">
-	<div class="row " >
+	<div class="row ">
 		<div class="container container-question mt-sm-5 my-1">
 			<div class="question ml-sm-5 pl-sm-5 pt-2">
 				<div class="py-2 h5">

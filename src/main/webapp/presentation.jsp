@@ -344,7 +344,7 @@ var quiz_id = <%=request.getParameter("id")%>
 	username = (String) sess.getAttribute("username");
 
 	Class.forName("com.mysql.cj.jdbc.Driver");
-	con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
+	con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "123");
 	stmt = con.createStatement();
 	rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='" + quizid + "' ORDER BY timestamp");
 	/*List<Question> questions = new ArrayList<>();*/

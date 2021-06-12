@@ -118,7 +118,7 @@
 
 				String quizid = request.getParameter("id");
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
+				con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "123");
 				stmt = con.createStatement();
 				rs = stmt.executeQuery("Select Count(questionid) from questions where quizid='" + quizid + "'");
 				rs.next();

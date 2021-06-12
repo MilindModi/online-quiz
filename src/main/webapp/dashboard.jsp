@@ -40,7 +40,7 @@
 		username = (String) sess.getAttribute("username");
 
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
+		con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "123");
 		stmt = con.createStatement();
 		stmt2 = con.createStatement();
 		

@@ -134,6 +134,7 @@ var quiz_id = <%=request.getParameter("id")%>
 	} else {
 		wsUrl = 'wss://';
 	}
+	
 	var ws = new WebSocket(wsUrl + window.location.host
 			+ "/OnlineQuiz/GetAnswer");
 	
@@ -142,10 +143,24 @@ var quiz_id = <%=request.getParameter("id")%>
 	
 	var ws20 = new WebSocket(wsUrl + window.location.host
 			+ "/OnlineQuiz/GetDetails");
+	
+	var ws30 = new WebSocket(wsUrl + window.location.host
+			+ "/OnlineQuiz/GetScores");
 
+	ws30.onmessage = function(event) {
+		var result = event.data.split(',');
+		console.log(result);
+		document.getElementById("teebodee").innerHTML = "";
+		for(let i = 0; i < result.length; i++) {
+			let j = i + 1;
+			var dat = result[i].split(":");
+			document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'/'+dat[2]+'</td></tr>';				
+		}
+	}
+	
 	ws20.onmessage = function(event) {
 		var result = event.data.split(',');
-		if(result[0].indexOf(":") == -1) {
+		//if(result[0].indexOf(":") == -1) {
 			google.charts.load('current', {'packages':['corechart']});
 			google.charts.setOnLoadCallback(drawChart);
 			function drawChart() {
@@ -162,8 +177,8 @@ var quiz_id = <%=request.getParameter("id")%>
 				var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 				chart.draw(data, options);
 			}
-		}
-			else {
+		//}
+			/* else {
 				console.log(result);
 				document.getElementById("teebodee").innerHTML = "";
 				for(let i = 0; i < result.length; i++) {
@@ -171,11 +186,15 @@ var quiz_id = <%=request.getParameter("id")%>
 					var dat = result[i].split(":");
 					document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'/'+dat[2]+'</td></tr>';				
 				}
-			}
+			} */
 	};
 	
 	ws20.onerror = function(event) {
 		console.log("Error ", event)
+	}
+	
+	ws30.onerror = function(event) {
+		console.log("Error ws30", event)
 	}
 
 	ws.onmessage = function(event) {
@@ -241,20 +260,20 @@ var quiz_id = <%=request.getParameter("id")%>
 	}
 	
 
-	function test(val, isLast=false) {
+	function test(val, isLast = false) {
 		/* var qid = document.getElementById("id_"+val).value;
 		alert(qid);
 		var loc = window.location;
 		var newloc = loc + '&qid=' + qid;
 		window.history.pushState({}, newloc, loc);
 		alert("HERE"); */
-		ws20.send('get'+quiz_id);
+		ws30.send('get'+quiz_id);
 		sendMsg(val);
 		sendMessage("scoreboard,"+"<%=request.getParameter("id")%>");
 		
 		if(isLast) {
 			var nextbtn = document.getElementById("nextqbtn");
-			nextbtn.innerHTML = '<a href="leaderboard.jsp?id='+quiz_id+'" id="disp_btn" class="btn btn-lg btn-success bb">Display Results</a>';
+			nextbtn.innerHTML = '<a href="leaderboard.jsp?id='+quiz_id+'" id="disp_btn" class="btn btn-lg btn-success bb"><i class="fa fa-trophy" aria-hidden="true"></i> Display Results</a>';
 		}
 	}
 	
@@ -304,7 +323,7 @@ var quiz_id = <%=request.getParameter("id")%>
 			Go to OnlineQuiz/Participate and use the code
 			<%=request.getParameter("id")%></h3>
 		<div id="startpt" class="jumbotron">
-			<button class="btn btn-success btn-lg" onclick="showQuestion(0)">Start
+			<button class="btn btn-success btn-lg" onclick="showQuestion(0)"><i class="fa fa-play" aria-hidden="true"></i> Start
 				Presentation</button>
 		</div>
 	</div>
@@ -379,7 +398,7 @@ var quiz_id = <%=request.getParameter("id")%>
 		style="display: none; padding-top: 10px; width: 100px; margin: 0 auto;"
 		id="finishbtn">
 		<a data-toggle='modal' data-target='#scoreboard'
-			onclick="test(<%=i - 1%>, true)" class="btn btn-success">Finish</a>
+			onclick="test(<%=i - 1%>, true)" class="btn btn-success" style="color:#fff;"><i class="fa fa-fast-forward" aria-hidden="true"></i> Finish</a>
 	</div>
 	<script>
 	var last = qArray[qArray.length-1];
@@ -399,10 +418,10 @@ var quiz_id = <%=request.getParameter("id")%>
 					// var eyedee = String(document.getElementById("id_" + i).value);
 					document.getElementById("nextbtn_" + i).innerHTML = "<div data-toggle='modal' data-target ='#scoreboard' class='ml-auto mr-sm-5'><button onclick='test("
 							+ i
-							+ ")' class='btn btn-success'>Next</button></div>";
+							+ ")' class='btn btn-success'><i class='fa fa-forward' aria-hidden='true'></i> Next</button></div>";
 					var nextbtn = document.getElementById("nextqbtn");
-					nextbtn.innerHTML = '<input type="submit" name="submit" value="Next Question" class="btn btn-success bb" onclick="showQuestion('
-							+ j + ')">';
+					nextbtn.innerHTML = '<button type="submit" name="submit" class="btn btn-success bb" onclick="showQuestion('
+							+ j + ')"><i class="fa fa-forward" aria-hidden="true"></i> Next Question</button>';
 				} else {
 					document.getElementById("finishbtn").style.display = "block";
 					// document.getElementById("nextqbtn").innerHTML = '<a href="leaderboard.jsp?id='+quiz_id+'" class="btn btn-success bb">Leaderboard</a>';

@@ -9,8 +9,6 @@
 	crossorigin="anonymous">
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
@@ -141,10 +139,28 @@ body {
 	
 	var ws2 = new WebSocket(wsUrl + window.location.host
 			+ "/OnlineQuiz/GetDetails");
+	
+	var ws33 = new WebSocket(wsUrl + window.location.host
+			+ "/OnlineQuiz/GetScores");
+
+	ws33.onmessage = function(event) {
+		var result = event.data.split(',');
+		console.log(result);
+		document.getElementById("teebodee").innerHTML = "";
+		for(let i = 0; i < result.length; i++) {
+			let j = i + 1;
+			var dat = result[i].split(":");
+			document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'/'+dat[2]+'</td></tr>';				
+		}
+	}
+	
+	ws33.onerror = function(event) {
+		console.log("Error ws30", event)
+	}
 
 	ws2.onmessage = function(event) {
 		var result = event.data.split(',');
-		if(result[0].indexOf(":") == -1) {
+		//if(result[0].indexOf(":") == -1) {
 			google.charts.load('current', {'packages':['corechart']});
 			google.charts.setOnLoadCallback(drawChart);
 			function drawChart() {
@@ -161,8 +177,8 @@ body {
 				var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 				chart.draw(data, options);
 			}
-		}
-			else {
+		//}
+			/*else {
 				console.log(result);
 				document.getElementById("teebodee").innerHTML = "";
 				for(let i = 0; i < result.length; i++) {
@@ -170,7 +186,7 @@ body {
 					var dat = result[i].split(":");
 					document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'/'+dat[2]+'</td></tr>';				
 				}
-			}
+			}*/
 	};
 	
 	ws2.onerror = function(event) {
@@ -215,7 +231,7 @@ body {
 			document.getElementById("disp_c").innerHTML = question['c'];
 			document.getElementById("disp_d").innerHTML = question['d'];
 			if(question['isLast']) {
-				document.getElementById("nextqbtn").innerHTML = '<a href="leaderboard.jsp?id='+quizid+'" class="btn btn-info btn-lg" role="alert">Display Results</a>';
+				document.getElementById("nextqbtn").innerHTML = '<a href="leaderboard.jsp?id='+quizid+'" class="btn btn-info btn-lg" role="alert"><i class="fa fa-trophy" aria-hidden="true"></i> Display Results</a>';
 			}
 		}
 	};
@@ -256,7 +272,7 @@ body {
 	<jsp:include page="navbar.jsp" />
 	<jsp:include page="scoreboard.jsp" />
 	<script>
-		document.getElementById("nextqbtn").innerHTML = '<div style="text-align: center;" class="alert alert-info" role="alert">Waiting for presenter...</div>';
+		document.getElementById("nextqbtn").innerHTML = '<div style="text-align: center;" class="alert alert-info" role="alert"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Waiting for presenter...</div>';
 	</script>
 
 	<%
@@ -265,7 +281,7 @@ body {
 	%>
 
 	<div id="startpt" class="jumbotron" style="text-align: center;">
-		<h3>Please wait for the next question!</h3>
+		<h3><i class="fa fa-hourglass-end" aria-hidden="true"></i> Please wait for the question!</h3>
 	</div>
 	<div id="qdata" style="display: none;">
 		<div class="container container-question mt-sm-5 my-1">
@@ -287,7 +303,7 @@ body {
 						onclick="submitAnswer()">Submit</button>
 					<br /> <br />
 					<div id="loading" style="display: none; text-align: center;"
-						class="alert alert-info" role="alert">Waiting for results...</div>
+						class="alert alert-info" role="alert"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Waiting for results...</div>
 				</div>
 			</div>
 		</div>

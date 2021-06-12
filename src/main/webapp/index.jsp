@@ -37,9 +37,9 @@ if (session.getAttribute("username") != null) {
 						for="defaultCheck1"> Remember Me </label>
 				</div>
 
-				<input type="submit" value="Login" class="btn btn-success" />
+				<button type="submit" class="btn btn-success"><i class="fa fa-sign-out" aria-hidden="true"></i> Login</button>
 			</form>
-			<br /> <a href="register.jsp"><button class="btn btn-primary">Register</button></a>
+			<br /> <a href="register.jsp"><button class="btn btn-primary"><i class="fa fa-user-circle" aria-hidden="true"></i> Register</button></a>
 		</div>
 	</div>
 	<jsp:include page="footer.jsp" />

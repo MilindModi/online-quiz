@@ -29,7 +29,7 @@
 		<div class="row1">
 			<div class="col-md-12">
 				<p class="text-right heading">
-					<a class="btn btn-danger" href="Logout">Logout</a>
+					<a class="btn btn-danger" href="Logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
 				</p>
 				<h1 class="heading">Dashboard</h1>
 
@@ -39,11 +39,11 @@
 
 			<div class="col animated slideInLeft">
 				<a class="btn btn-primary tbtn" href="#createQuizModal"
-					data-toggle="modal"><h1 class="q">Create Quiz</h1></a>
+					data-toggle="modal"><h1 class="q"><i class="fa fa-plus" aria-hidden="true"></i> Create Quiz</h1></a>
 			</div>
 			<div class="col animated slideInRight">
 				<a class="btn btn-danger tbtn" href="#participateModal" data-toggle="modal">
-				<h1 class="q">Participate</h1></a>
+				<h1 class="q"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Participate</h1></a>
 			</div>
 		</div>
 
@@ -87,9 +87,9 @@
 							<th scope="row"><%=i++%></th>
 							<td><%=quizname%></td>
 							<td><a class="btn btn-info"
-								href="quiz.jsp?id=<%=quizid%>&name=<%=quizname%>">View</a></td>
+								href="quiz.jsp?id=<%=quizid%>&name=<%=quizname%>"><i class="fa fa-eye" aria-hidden="true"></i> View</a></td>
 								<td><a class="btn btn-danger"
-								href="DeleteQuiz?id=<%=quizid%>">Delete</a></td>
+								href="DeleteQuiz?id=<%=quizid%>"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></td>
 						</tr>
 						<%
 						}

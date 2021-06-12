@@ -98,8 +98,8 @@
 		<div class="row1">
 			<div class="col-md-12">
 				<p class="text-right heading">
-					<a class="btn btn-primary float-left" href="dashboard.jsp"> <-
-						Dashboard</a> <a class="btn btn-danger" href="Logout">Logout</a>
+					<a class="btn btn-primary float-left" href="dashboard.jsp"> <i class="fa fa-arrow-left" aria-hidden="true"></i> 
+						Dashboard</a> <a class="btn btn-danger" href="Logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
 				</p>
 				<h1 style="color: white">Leaderboard</h1>
 			</div>
@@ -111,7 +111,7 @@
 
 				<%
 				String[] color = { "red", "pink", "purple", "deeppurple", "indigo", "blue", "lightblue", "cyan", "teal", "green",
-						"lightgreen", "lime", "yellow","anber","orange","deeporange", "brown", "grey", "bluegrey" };
+						"lightgreen", "lime", "yellow","amber","orange","deeporange", "brown", "grey", "bluegrey" };
 				Connection con;
 				Statement stmt;
 				ResultSet rs;

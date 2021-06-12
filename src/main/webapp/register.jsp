@@ -30,11 +30,11 @@
 				</div>
 
 				<div class="form-group">
-					<input type="submit" value="Register" class="btn btn-primary" />
+					<button type="submit" class="btn btn-primary" ><i class="fa fa-user-circle" aria-hidden="true"></i> Register</button>
 				</div>
 			</form>
 			<br>
-			<a href="index.jsp"><button class="btn btn-success">Already have an account? Login</button></a>
+			<a href="index.jsp"><button class="btn btn-success">Already have an account? Login <i class="fa fa-sign-in" aria-hidden="true"></i></button></a>
 		</div>
 	</div>
 	<jsp:include page="footer.jsp" />

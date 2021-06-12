@@ -9,8 +9,6 @@
 	crossorigin="anonymous">
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
@@ -233,7 +231,7 @@ body {
 			document.getElementById("disp_c").innerHTML = question['c'];
 			document.getElementById("disp_d").innerHTML = question['d'];
 			if(question['isLast']) {
-				document.getElementById("nextqbtn").innerHTML = '<a href="leaderboard.jsp?id='+quizid+'" class="btn btn-info btn-lg" role="alert">Display Results</a>';
+				document.getElementById("nextqbtn").innerHTML = '<a href="leaderboard.jsp?id='+quizid+'" class="btn btn-info btn-lg" role="alert"><i class="fa fa-trophy" aria-hidden="true"></i> Display Results</a>';
 			}
 		}
 	};
@@ -274,7 +272,7 @@ body {
 	<jsp:include page="navbar.jsp" />
 	<jsp:include page="scoreboard.jsp" />
 	<script>
-		document.getElementById("nextqbtn").innerHTML = '<div style="text-align: center;" class="alert alert-info" role="alert">Waiting for presenter...</div>';
+		document.getElementById("nextqbtn").innerHTML = '<div style="text-align: center;" class="alert alert-info" role="alert"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Waiting for presenter...</div>';
 	</script>
 
 	<%
@@ -283,7 +281,7 @@ body {
 	%>
 
 	<div id="startpt" class="jumbotron" style="text-align: center;">
-		<h3>Please wait for the next question!</h3>
+		<h3><i class="fa fa-hourglass-end" aria-hidden="true"></i> Please wait for the question!</h3>
 	</div>
 	<div id="qdata" style="display: none;">
 		<div class="container container-question mt-sm-5 my-1">
@@ -305,7 +303,7 @@ body {
 						onclick="submitAnswer()">Submit</button>
 					<br /> <br />
 					<div id="loading" style="display: none; text-align: center;"
-						class="alert alert-info" role="alert">Waiting for results...</div>
+						class="alert alert-info" role="alert"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Waiting for results...</div>
 				</div>
 			</div>
 		</div>

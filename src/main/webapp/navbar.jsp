@@ -10,10 +10,8 @@
 		<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
 			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 				<li class="nav-item active"><a class="nav-link"
-					href="dashboard.jsp">Dashboard</a></li>
-				<li class="nav-item"><a class="nav-link" href="profile.jsp">Profile</a>
-				</li>
+					href="dashboard.jsp"><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a></li>
 			</ul>
-			<a href="Logout" class="btn btn-danger">Logout</a>
+			<a href="Logout" class="btn btn-danger"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
 		</div>
 	</nav>

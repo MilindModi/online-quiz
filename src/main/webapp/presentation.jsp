@@ -273,7 +273,7 @@ var quiz_id = <%=request.getParameter("id")%>
 		
 		if(isLast) {
 			var nextbtn = document.getElementById("nextqbtn");
-			nextbtn.innerHTML = '<a href="leaderboard.jsp?id='+quiz_id+'" id="disp_btn" class="btn btn-lg btn-success bb">Display Results</a>';
+			nextbtn.innerHTML = '<a href="leaderboard.jsp?id='+quiz_id+'" id="disp_btn" class="btn btn-lg btn-success bb"><i class="fa fa-trophy" aria-hidden="true"></i> Display Results</a>';
 		}
 	}
 	
@@ -323,7 +323,7 @@ var quiz_id = <%=request.getParameter("id")%>
 			Go to OnlineQuiz/Participate and use the code
 			<%=request.getParameter("id")%></h3>
 		<div id="startpt" class="jumbotron">
-			<button class="btn btn-success btn-lg" onclick="showQuestion(0)">Start
+			<button class="btn btn-success btn-lg" onclick="showQuestion(0)"><i class="fa fa-play" aria-hidden="true"></i> Start
 				Presentation</button>
 		</div>
 	</div>
@@ -398,7 +398,7 @@ var quiz_id = <%=request.getParameter("id")%>
 		style="display: none; padding-top: 10px; width: 100px; margin: 0 auto;"
 		id="finishbtn">
 		<a data-toggle='modal' data-target='#scoreboard'
-			onclick="test(<%=i - 1%>, true)" class="btn btn-success">Finish</a>
+			onclick="test(<%=i - 1%>, true)" class="btn btn-success" style="color:#fff;"><i class="fa fa-fast-forward" aria-hidden="true"></i> Finish</a>
 	</div>
 	<script>
 	var last = qArray[qArray.length-1];
@@ -418,10 +418,10 @@ var quiz_id = <%=request.getParameter("id")%>
 					// var eyedee = String(document.getElementById("id_" + i).value);
 					document.getElementById("nextbtn_" + i).innerHTML = "<div data-toggle='modal' data-target ='#scoreboard' class='ml-auto mr-sm-5'><button onclick='test("
 							+ i
-							+ ")' class='btn btn-success'>Next</button></div>";
+							+ ")' class='btn btn-success'><i class='fa fa-forward' aria-hidden='true'></i> Next</button></div>";
 					var nextbtn = document.getElementById("nextqbtn");
-					nextbtn.innerHTML = '<input type="submit" name="submit" value="Next Question" class="btn btn-success bb" onclick="showQuestion('
-							+ j + ')">';
+					nextbtn.innerHTML = '<button type="submit" name="submit" class="btn btn-success bb" onclick="showQuestion('
+							+ j + ')"><i class="fa fa-forward" aria-hidden="true"></i> Next Question</button>';
 				} else {
 					document.getElementById("finishbtn").style.display = "block";
 					// document.getElementById("nextqbtn").innerHTML = '<a href="leaderboard.jsp?id='+quiz_id+'" class="btn btn-success bb">Leaderboard</a>';

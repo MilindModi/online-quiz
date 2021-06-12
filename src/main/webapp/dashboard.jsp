@@ -29,7 +29,8 @@
 		<div class="row1">
 			<div class="col-md-12">
 				<p class="text-right heading">
-					<a class="btn btn-danger" href="Logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
+					<a class="btn btn-danger" href="Logout"><i
+						class="fa fa-sign-out" aria-hidden="true"></i> Logout</a>
 				</p>
 				<h1 class="heading">Dashboard</h1>
 
@@ -39,21 +40,30 @@
 
 			<div class="col animated slideInLeft">
 				<a class="btn btn-primary tbtn" href="#createQuizModal"
-					data-toggle="modal"><h1 class="q"><i class="fa fa-plus" aria-hidden="true"></i> Create Quiz</h1></a>
+					data-toggle="modal"><h1 class="q">
+						<i class="fa fa-plus" aria-hidden="true"></i> Create Quiz
+					</h1></a>
 			</div>
 			<div class="col animated slideInRight">
-				<a class="btn btn-danger tbtn" href="#participateModal" data-toggle="modal">
-				<h1 class="q"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Participate</h1></a>
+				<a class="btn btn-danger tbtn" href="#participateModal"
+					data-toggle="modal">
+					<h1 class="q">
+						<i class="fa fa-graduation-cap" aria-hidden="true"></i>
+						Participate
+					</h1>
+				</a>
 			</div>
 		</div>
 
 		<div class="row mt-5">
 			<div class="col-md-12">
-				<table class="table table-hover table-light table-borderless" style="width: 60%; margin: 0 auto;'">
+				<table class="table table-hover table-light table-borderless"
+					style="width: 60%; margin: 0 auto;'">
 					<thead class="thead-dark">
 						<tr>
 							<th scope="col">No.</th>
 							<th scope="col">Quiz Name</th>
+							<th scope="col">Rating</th>
 							<th scope="col">View</th>
 							<th scope="col">Delete</th>
 						</tr>
@@ -76,20 +86,33 @@
 						Class.forName("com.mysql.cj.jdbc.Driver");
 						con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
 						stmt = con.createStatement();
-						rs = stmt.executeQuery("SELECT * FROM quiz WHERE username='" + username + "' ORDER BY timestamp DESC");
+						rs = stmt.executeQuery(
+								"SELECT *, (SELECT AVG(rating) FROM feedback WHERE quiz.quizid=quizid) as total FROM quiz WHERE username='"
+								+ username + "' ORDER BY timestamp DESC;");
 						int i = 1;
 
 						while (rs.next()) {
 							String quizid = rs.getString("quizid");
 							String quizname = rs.getString("quizname");
+							double total = rs.getDouble("total");
+							System.out.println(total);
 						%>
 						<tr>
 							<th scope="row"><%=i++%></th>
 							<td><%=quizname%></td>
+							<td>
+                                <span class="fa fa-star<%=total>0?(total<1?"-half-o":""):"-o"%>"></span>
+                                <span class="fa fa-star<%=total>1?(total<2?"-half-o":""):"-o"%>"></span>
+                                <span class="fa fa-star<%=total>2?(total<3?"-half-o":""):"-o"%>"></span>
+                                <span class="fa fa-star<%=total>3?(total<4?"-half-o":""):"-o"%>"></span>
+                                <span class="fa fa-star<%=total>4?(total<5?"-half-o":""):"-o"%>"></span>
+                            </td>
 							<td><a class="btn btn-info"
-								href="quiz.jsp?id=<%=quizid%>&name=<%=quizname%>"><i class="fa fa-eye" aria-hidden="true"></i> View</a></td>
-								<td><a class="btn btn-danger"
-								href="DeleteQuiz?id=<%=quizid%>"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></td>
+								href="quiz.jsp?id=<%=quizid%>&name=<%=quizname%>"><i
+									class="fa fa-eye" aria-hidden="true"></i> View</a></td>
+							<td><a class="btn btn-danger"
+								href="DeleteQuiz?id=<%=quizid%>"><i class="fa fa-trash"
+									aria-hidden="true"></i> Delete</a></td>
 						</tr>
 						<%
 						}
@@ -100,17 +123,17 @@
 		</div>
 	</div>
 
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-			integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-			crossorigin="anonymous"></script>
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-			integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-			crossorigin="anonymous"></script>
-		<script
-			src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-			integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-			crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
 </body>
 
 <!-- Create Modal HTML -->

@@ -145,5 +145,13 @@
 				%>
 			</div>
 		</div>
+		
+		<div class="row mt-5">
+		  <div class="col col-lg-4"></div>
+		    <div class="col col-lg-4 text-center">	
+				<a href="rate.jsp?id=<%= quizid %>" class="btn btn-warning btn-lg" style="font-weight:bold;"> Rate this Presentation </a>	
+			</div>
+			<div class="col col-lg-4"></div>
+		</div>
 	</div>
 	<jsp:include page="footer.jsp" />

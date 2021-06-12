@@ -13,6 +13,7 @@ function sendChat(){
 	document.getElementById("msgContent").value = "";
 }
 wsChat.onmessage = function(event) {
+	$('.card-body').scrollTop(1000000);
 	console.log("MSG RECEIVED : "+event.data);
 	var dd = event.data.split(",");
 	if(dd[0] === '<%=uname%>'){

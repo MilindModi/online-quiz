@@ -37,7 +37,8 @@ body {
 	border-radius: 10px;
 	padding: 20px;
 	font-family: 'Montserrat', sans-serif;
-	max-width: 700px
+	max-width: 700px;
+	max-height: 300px;
 }
 
 .question-container>p {

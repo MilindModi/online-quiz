@@ -31,7 +31,7 @@ body {
 	background-color: #555;
 	color: #ddd;
 	border-radius: 10px;
-	padding: 20px;
+	padding: 10px;
 	font-family: 'Montserrat', sans-serif;
 	max-width: 700px
 }
@@ -113,6 +113,7 @@ body {
 	padding: 5px 25px;
 	background-color: #21bf73
 }
+
 
 @media ( max-width :576px) {
 	.question {
@@ -335,8 +336,8 @@ body {
 	<div id="startpt" class="jumbotron" style="text-align: center;">
 		<h3><i class="fa fa-hourglass-end" aria-hidden="true"></i> Please wait for the question!</h3>
 	</div>
-	<div id="qdata" style="display: none;">
 	<div class="row ">
+	<div id="qdata" class="col-md-8" style="display: none;">
 		<div class="container container-question mt-sm-5 my-1">
 			<div class="question ml-sm-5 pl-sm-5 pt-2">
 				<div class="py-2 h5">
@@ -353,14 +354,14 @@ body {
 						type="radio" name="radio"> <span class="checkmark"></span>
 					</label>
 					<button id="smbtn" class="btn btn-success btn-lg"
-						onclick="submitAnswer()">Submit</button>
+						onclick="submitAnswer()" style="float:right"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Submit</button>
 					<br /> <br />
 					<div id="loading" style="display: none; text-align: center;"
 						class="alert alert-info" role="alert"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Waiting for results...</div>
 				</div>
 			</div>
 		</div>
-		<jsp:include page="chat.jsp" />
+		
 			<!-- <div class="col-md-3 mx-auto" style="float:right;margin-top: 10px;">
             <div class="card">
                 <div class="card-header text-center">
@@ -385,6 +386,7 @@ body {
             </div>
         </div> -->
 		</div>
+		<jsp:include page="chat.jsp" />
 	</div>
 	<%
 	} else {

@@ -15,6 +15,16 @@ public class Database {
 	static final String DB_URL = "jdbc:mysql://localhost/online-quiz";
 	static final String USER = "root";
 	static final String PASS = "";
+	
+	
+	public static void submitFeedback(String quizid, String username, int rating) {
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+				Statement stmt = conn.createStatement()) {
+			stmt.executeUpdate("insert into feedback values('"+ quizid +"','"+ username +"','" + rating + "')");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void submitAnswer(String qid, String username, String selected, int isCorrect) {
 		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -26,6 +36,7 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+
 
 	public static Question getQuestion(String questionid) {
 		Question q = null;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2021 at 12:06 PM
+-- Generation Time: Jun 12, 2021 at 07:38 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -51,6 +51,7 @@ CREATE TABLE `questions` (
 INSERT INTO `questions` (`questionid`, `question`, `quizid`, `option1`, `option2`, `option3`, `option4`, `correctanswer`, `type`, `correctPoints`, `minusPoints`, `timestamp`, `qno`) VALUES
 ('4ViEy2', 'Question 1', 825122, 'D', 'B', 'C', 'A', '4', 'MCQ', 1, 0, '2021-06-10 01:04:30', 0),
 ('7BNTU4', 'Question 3', 641396, 'Op1', 'Op2', 'Op3', 'Op4', '2', 'MCQ', 1, 0, '2021-06-10 13:43:32', 0),
+('8dalRf', 'Question 2', 143982, 'D', 'C', 'B', 'A', '2', 'MCQ', 1, 0, '2021-06-11 16:46:10', 2),
 ('aCcpPC', 'Question 1', 641396, 'A', 'B', 'C', 'D', '1', 'MCQ', 1, 0, '2021-06-10 12:28:46', 0),
 ('bpM7PP', 'Question 2', 641396, 'A', 'B', 'C', 'D', '2', 'MCQ', 1, 0, '2021-06-10 12:28:57', 0),
 ('CuS2Y4', 'Question 5', 641396, 'D', 'C', 'B', 'A', '4', 'MCQ', 1, 0, '2021-06-10 15:14:46', 0),
@@ -58,8 +59,14 @@ INSERT INTO `questions` (`questionid`, `question`, `quizid`, `option1`, `option2
 ('dliASA', 'Question 1', 143982, 'A', 'B', 'C', 'D', '1', 'MCQ', 1, 0, '2021-06-10 17:03:06', 0),
 ('hN8bd0', 'Question 1', 628732, 'A', 'B', 'C', 'D', '3', 'MCQ', 1, 0, '2021-06-10 10:23:22', 0),
 ('jGgRSd', 'Question 2', 143982, 'A', 'B', 'C', 'D', '4', 'MCQ', 1, 0, '2021-06-10 17:03:25', 0),
+('KkOuy7', 'Question 1', 332637, 'A', 'B', 'C', 'D', '1', 'MCQ', 1, 0, '2021-06-11 22:39:41', -1),
+('nTA1sH', 'Question 5', 143982, 'Op4', 'Op3', 'Op2', 'Op1', '4', 'MCQ', 1, 0, '2021-06-11 16:46:11', 5),
+('QINYxv', 'Question 1', 143982, 'A', 'B', 'C', 'D', '1', 'MCQ', 1, 0, '2021-06-11 16:46:10', 1),
 ('SXpbcA', 'Question 2', 667623, 'Op1', 'Op3', 'Op4', 'Op2', '4', 'MCQ', 1, 0, '2021-06-10 12:25:03', 0),
-('TkXEs1', 'Question 4', 641396, 'ABCD', 'EFGH', 'IJKL', 'MNOP', '1', 'MCQ', 1, 0, '2021-06-10 13:49:42', 0);
+('TkXEs1', 'Question 4', 641396, 'ABCD', 'EFGH', 'IJKL', 'MNOP', '1', 'MCQ', 1, 0, '2021-06-10 13:49:42', 0),
+('TOmEbT', 'Question 4', 143982, 'Op1', 'Op2', 'Op3', 'Op4', '4', 'MCQ', 1, 0, '2021-06-11 16:46:10', 4),
+('ULHSxW', 'Question 2', 332637, 'A', 'B', 'C', 'D', '2', 'MCQ', 1, 0, '2021-06-12 00:02:02', -1),
+('YUOEo8', 'Question 3', 143982, 'B', 'C', 'A', 'D', '3', 'MCQ', 1, 0, '2021-06-11 16:46:10', 3);
 
 -- --------------------------------------------------------
 
@@ -102,9 +109,15 @@ CREATE TABLE `scoreboard` (
 --
 
 INSERT INTO `scoreboard` (`questionid`, `username`, `selected`, `isCorrect`) VALUES
-('7BNTU4', 'milind', '1', 0),
-('aCcpPC', 'pradeep', '4', 0),
-('aCcpPC', 'nirav', '1', 1);
+('aCcpPC', 'pradeep', '1', 1),
+('bpM7PP', 'pradeep', '2', 1),
+('bpM7PP', 'milind', '2', 1),
+('7BNTU4', 'pradeep', '2', 1),
+('7BNTU4', 'milind', '2', 1),
+('TkXEs1', 'pradeep', '4', 0),
+('TkXEs1', 'milind', '1', 1),
+('CuS2Y4', 'pradeep', '4', 1),
+('CuS2Y4', 'milind', '4', 1);
 
 -- --------------------------------------------------------
 

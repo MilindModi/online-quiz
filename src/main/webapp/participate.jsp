@@ -141,10 +141,28 @@ body {
 	
 	var ws2 = new WebSocket(wsUrl + window.location.host
 			+ "/OnlineQuiz/GetDetails");
+	
+	var ws33 = new WebSocket(wsUrl + window.location.host
+			+ "/OnlineQuiz/GetScores");
+
+	ws33.onmessage = function(event) {
+		var result = event.data.split(',');
+		console.log(result);
+		document.getElementById("teebodee").innerHTML = "";
+		for(let i = 0; i < result.length; i++) {
+			let j = i + 1;
+			var dat = result[i].split(":");
+			document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'/'+dat[2]+'</td></tr>';				
+		}
+	}
+	
+	ws33.onerror = function(event) {
+		console.log("Error ws30", event)
+	}
 
 	ws2.onmessage = function(event) {
 		var result = event.data.split(',');
-		if(result[0].indexOf(":") == -1) {
+		//if(result[0].indexOf(":") == -1) {
 			google.charts.load('current', {'packages':['corechart']});
 			google.charts.setOnLoadCallback(drawChart);
 			function drawChart() {
@@ -161,8 +179,8 @@ body {
 				var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 				chart.draw(data, options);
 			}
-		}
-			else {
+		//}
+			/*else {
 				console.log(result);
 				document.getElementById("teebodee").innerHTML = "";
 				for(let i = 0; i < result.length; i++) {
@@ -170,7 +188,7 @@ body {
 					var dat = result[i].split(":");
 					document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'/'+dat[2]+'</td></tr>';				
 				}
-			}
+			}*/
 	};
 	
 	ws2.onerror = function(event) {

@@ -134,6 +134,7 @@ var quiz_id = <%=request.getParameter("id")%>
 	} else {
 		wsUrl = 'wss://';
 	}
+	
 	var ws = new WebSocket(wsUrl + window.location.host
 			+ "/OnlineQuiz/GetAnswer");
 	
@@ -142,10 +143,24 @@ var quiz_id = <%=request.getParameter("id")%>
 	
 	var ws20 = new WebSocket(wsUrl + window.location.host
 			+ "/OnlineQuiz/GetDetails");
+	
+	var ws30 = new WebSocket(wsUrl + window.location.host
+			+ "/OnlineQuiz/GetScores");
 
+	ws30.onmessage = function(event) {
+		var result = event.data.split(',');
+		console.log(result);
+		document.getElementById("teebodee").innerHTML = "";
+		for(let i = 0; i < result.length; i++) {
+			let j = i + 1;
+			var dat = result[i].split(":");
+			document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'/'+dat[2]+'</td></tr>';				
+		}
+	}
+	
 	ws20.onmessage = function(event) {
 		var result = event.data.split(',');
-		if(result[0].indexOf(":") == -1) {
+		//if(result[0].indexOf(":") == -1) {
 			google.charts.load('current', {'packages':['corechart']});
 			google.charts.setOnLoadCallback(drawChart);
 			function drawChart() {
@@ -162,8 +177,8 @@ var quiz_id = <%=request.getParameter("id")%>
 				var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 				chart.draw(data, options);
 			}
-		}
-			else {
+		//}
+			/* else {
 				console.log(result);
 				document.getElementById("teebodee").innerHTML = "";
 				for(let i = 0; i < result.length; i++) {
@@ -171,11 +186,15 @@ var quiz_id = <%=request.getParameter("id")%>
 					var dat = result[i].split(":");
 					document.getElementById("teebodee").innerHTML += '<tr><th scope="row">' + j + '</th><td>'+dat[0]+'</td><td>'+dat[1]+'/'+dat[2]+'</td></tr>';				
 				}
-			}
+			} */
 	};
 	
 	ws20.onerror = function(event) {
 		console.log("Error ", event)
+	}
+	
+	ws30.onerror = function(event) {
+		console.log("Error ws30", event)
 	}
 
 	ws.onmessage = function(event) {
@@ -241,14 +260,14 @@ var quiz_id = <%=request.getParameter("id")%>
 	}
 	
 
-	function test(val, isLast=false) {
+	function test(val, isLast = false) {
 		/* var qid = document.getElementById("id_"+val).value;
 		alert(qid);
 		var loc = window.location;
 		var newloc = loc + '&qid=' + qid;
 		window.history.pushState({}, newloc, loc);
 		alert("HERE"); */
-		ws20.send('get'+quiz_id);
+		ws30.send('get'+quiz_id);
 		sendMsg(val);
 		sendMessage("scoreboard,"+"<%=request.getParameter("id")%>");
 		

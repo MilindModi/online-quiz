@@ -9,6 +9,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
@@ -266,6 +267,57 @@ body {
 		console.log("MSG: " + msg);
 		ws5.send(msg);
 	}
+	
+	<%-- var wsChat = new WebSocket(wsUrl + window.location.host
+			+ "/OnlineQuiz/Chat");
+	
+	function sendChat(){
+		var msgContent = document.getElementById("msgContent").value;
+		console.log(msgContent);
+		wsChat.send( '<%=uname%>' +","+msgContent);
+		document.getElementById("msgContent").value = "";
+	}
+	wsChat.onmessage = function(event) {
+		console.log("MSG RECEIVED : "+event.data);
+		var dd = event.data.split(",");
+		if(dd[0] === '<%=uname%>'){
+			document.getElementById("chat-screen").innerHTML += 
+			`<li class="admin clearfix">
+            <span class="chat-img right clearfix  mx-2">
+                <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="Admin" class="img-circle" />
+            </span>
+            <div class="chat-body clearfix">
+                <div class="header clearfix">
+                    
+                    <strong class="right primary-font">` + dd[0] + `</strong>
+                </div>
+                <p>
+                ` + dd[1] + `
+                </p>
+            </div>
+        </li>`;
+        
+			
+		}else{
+			document.getElementById("chat-screen").innerHTML += 
+			` <li class="agent clearfix">
+            <span class="chat-img left clearfix mx-2">
+                <img src="http://placehold.it/50/55C1E7/fff&text=`+dd[0].substr(0,1) + `" alt="Agent" class="img-circle" />
+            </span>
+            <div class="chat-body clearfix">
+                <div class="header clearfix">
+                    <strong class="primary-font">` + dd[0] + `</strong> <small class="right text-muted">
+                        
+                </div>
+                <p>
+                    ` + dd[1] + ` 
+                </p>
+            </div>
+        </li> `;
+		}
+		
+	} --%>
+	
 </script>
 </head>
 <body onload="sendMsg('')">
@@ -284,6 +336,7 @@ body {
 		<h3><i class="fa fa-hourglass-end" aria-hidden="true"></i> Please wait for the question!</h3>
 	</div>
 	<div id="qdata" style="display: none;">
+	<div class="row " >
 		<div class="container container-question mt-sm-5 my-1">
 			<div class="question ml-sm-5 pl-sm-5 pt-2">
 				<div class="py-2 h5">
@@ -306,6 +359,31 @@ body {
 						class="alert alert-info" role="alert"><i class="fa fa-hourglass-end" aria-hidden="true"></i> Waiting for results...</div>
 				</div>
 			</div>
+		</div>
+		<jsp:include page="chat.jsp" />
+			<!-- <div class="col-md-3 mx-auto" style="float:right;margin-top: 10px;">
+            <div class="card">
+                <div class="card-header text-center">
+                    <span>Chat Box</span>
+                </div>
+                <div class="card-body chat-care">
+                    <ul class="chat" id = "chat-screen">
+                        
+                        
+                        
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <div class="input-group">
+                        <input id="msgContent" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" id="btn-chat" onClick="sendChat()">
+                                Send</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div> -->
 		</div>
 	</div>
 	<%

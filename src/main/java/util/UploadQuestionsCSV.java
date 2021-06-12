@@ -16,6 +16,7 @@ import models.questions.*;
 public class UploadQuestionsCSV extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String uploadedFilename = null;
+	private static String UPLOAD_PATH = "D:\\uploads\\";
 
 	public UploadQuestionsCSV() {
 		super();
@@ -82,7 +83,8 @@ public class UploadQuestionsCSV extends HttpServlet {
 					}
 				} else {
 					if (fileItem.getSize() > 0) {
-						uploadedFilename = "D:\\uploads\\" + fileItem.getName();
+						uploadedFilename = UPLOAD_PATH + fileItem.getName();
+						// uploadedFilename = "D:\\uploads\\" + fileItem.getName();
 						fileItem.write(new File(uploadedFilename));
 						readData(quizid);
 					}

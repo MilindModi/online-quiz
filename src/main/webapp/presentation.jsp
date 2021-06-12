@@ -372,6 +372,8 @@ var quiz_id = <%=request.getParameter("id")%>
 			"quizid": "<%=quizid%>"
 		});
 	</script>
+	<div class="row">
+	
 	<div class="container question-container mt-sm-5 my-1" name="questions"
 		id="question_<%=i%>" style="display: none;">
 		<input type="hidden" id="id_<%=i%>" style="display: none;"
@@ -389,7 +391,6 @@ var quiz_id = <%=request.getParameter("id")%>
 			</div>
 		</div>
 		<div class="d-flex align-items-center pt-3" id="nextbtn_<%=i%>"></div>
-	</div>
 	<%
 	i++;
 	}
@@ -400,6 +401,9 @@ var quiz_id = <%=request.getParameter("id")%>
 		<a data-toggle='modal' data-target='#scoreboard'
 			onclick="test(<%=i - 1%>, true)" class="btn btn-success" style="color:#fff;"><i class="fa fa-fast-forward" aria-hidden="true"></i> Finish</a>
 	</div>
+	</div>
+	<jsp:include page="chat.jsp" />
+	 </div>
 	<script>
 	var last = qArray[qArray.length-1];
 	last = {...last, "isLast": "true"};

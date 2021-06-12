@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2021 at 02:36 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.4
+-- Generation Time: Jun 12, 2021 at 03:49 PM
+-- Server version: 10.4.8-MariaDB
+-- PHP Version: 7.3.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -38,9 +39,9 @@ CREATE TABLE `feedback` (
 --
 
 INSERT INTO `feedback` (`quizid`, `username`, `rating`) VALUES
-(641396, 'pradeep', 3),
+(641396, 'pradeep', 5),
 (641396, 'milind', 4),
-(641396, 'nirav', 4);
+(641396, 'nirav', 2);
 
 -- --------------------------------------------------------
 
@@ -69,16 +70,13 @@ CREATE TABLE `questions` (
 --
 
 INSERT INTO `questions` (`questionid`, `question`, `quizid`, `option1`, `option2`, `option3`, `option4`, `correctanswer`, `type`, `correctPoints`, `minusPoints`, `timestamp`, `qno`) VALUES
-('3KsxgC', 'Question 3', 332637, 'B', 'C', 'A', 'D', '3', 'MCQ', 1, 0, '2021-06-12 12:40:31', 3),
 ('4ViEy2', 'Question 1', 825122, 'D', 'B', 'C', 'A', '4', 'MCQ', 1, 0, '2021-06-10 01:04:30', 0),
 ('7BNTU4', 'Question 3', 641396, 'Op1', 'Op2', 'Op3', 'Op4', '2', 'MCQ', 1, 0, '2021-06-10 13:43:32', 0),
 ('8dalRf', 'Question 2', 143982, 'D', 'C', 'B', 'A', '2', 'MCQ', 1, 0, '2021-06-11 16:46:10', 2),
-('8Iqrxx', 'Question 1', 332637, 'A', 'B', 'C', 'D', '1', 'MCQ', 1, 0, '2021-06-12 12:40:31', 1),
 ('aCcpPC', 'Question 1', 641396, 'A', 'B', 'C', 'D', '1', 'MCQ', 1, 0, '2021-06-10 12:28:46', 0),
 ('bpM7PP', 'Question 2', 641396, 'A', 'B', 'C', 'D', '2', 'MCQ', 1, 0, '2021-06-10 12:28:57', 0),
 ('CuS2Y4', 'Question 5', 641396, 'D', 'C', 'B', 'A', '4', 'MCQ', 1, 0, '2021-06-10 15:14:46', 0),
 ('CyOV2d', 'Question 3', 825122, 'A', 'B', 'C', 'D', '2', 'MCQ', 1, 0, '2021-06-10 11:08:36', 0),
-('D9AmnD', 'Question 2', 332637, 'D', 'C', 'B', 'A', '2', 'MCQ', 1, 0, '2021-06-12 12:40:31', 2),
 ('dliASA', 'Question 1', 143982, 'A', 'B', 'C', 'D', '1', 'MCQ', 1, 0, '2021-06-10 17:03:06', 0),
 ('hN8bd0', 'Question 1', 628732, 'A', 'B', 'C', 'D', '3', 'MCQ', 1, 0, '2021-06-10 10:23:22', 0),
 ('jGgRSd', 'Question 2', 143982, 'A', 'B', 'C', 'D', '4', 'MCQ', 1, 0, '2021-06-10 17:03:25', 0),
@@ -87,8 +85,6 @@ INSERT INTO `questions` (`questionid`, `question`, `quizid`, `option1`, `option2
 ('SXpbcA', 'Question 2', 667623, 'Op1', 'Op3', 'Op4', 'Op2', '4', 'MCQ', 1, 0, '2021-06-10 12:25:03', 0),
 ('TkXEs1', 'Question 4', 641396, 'ABCD', 'EFGH', 'IJKL', 'MNOP', '1', 'MCQ', 1, 0, '2021-06-10 13:49:42', 0),
 ('TOmEbT', 'Question 4', 143982, 'Op1', 'Op2', 'Op3', 'Op4', '4', 'MCQ', 1, 0, '2021-06-11 16:46:10', 4),
-('VeDyOb', 'Question 4', 332637, 'Op1', 'Op2', 'Op3', 'Op4', '4', 'MCQ', 1, 0, '2021-06-12 12:40:31', 4),
-('Yqk05L', 'Question 5', 332637, 'Op4', 'Op3', 'Op2', 'Op1', '4', 'MCQ', 1, 0, '2021-06-12 12:40:31', 5),
 ('YUOEo8', 'Question 3', 143982, 'B', 'C', 'A', 'D', '3', 'MCQ', 1, 0, '2021-06-11 16:46:10', 3);
 
 -- --------------------------------------------------------
@@ -133,19 +129,20 @@ CREATE TABLE `scoreboard` (
 
 INSERT INTO `scoreboard` (`questionid`, `username`, `selected`, `isCorrect`) VALUES
 ('aCcpPC', 'pradeep', '1', 1),
-('bpM7PP', 'pradeep', '2', 1),
-('bpM7PP', 'milind', '2', 1),
-('7BNTU4', 'pradeep', '2', 1),
+('aCcpPC', 'nirav', '1', 1),
+('aCcpPC', 'milind', '1', 1),
+('bpM7PP', 'pradeep', '4', 0),
+('bpM7PP', 'milind', '3', 0),
+('bpM7PP', 'nirav', '2', 1),
+('7BNTU4', 'pradeep', '4', 0),
+('7BNTU4', 'nirav', '4', 0),
 ('7BNTU4', 'milind', '2', 1),
-('TkXEs1', 'pradeep', '4', 0),
+('TkXEs1', 'pradeep', '1', 1),
 ('TkXEs1', 'milind', '1', 1),
+('TkXEs1', 'nirav', '1', 1),
 ('CuS2Y4', 'pradeep', '4', 1),
-('CuS2Y4', 'milind', '4', 1),
-('aCcpPC', 'pradeep', '2', 0),
-('aCcpPC', 'pradeep', '2', 0),
-('aCcpPC', 'pradeep', '2', 0),
-('aCcpPC', 'pradeep', '2', 0),
-('aCcpPC', 'pradeep', '2', 0);
+('CuS2Y4', 'nirav', '4', 1),
+('CuS2Y4', 'milind', '4', 1);
 
 -- --------------------------------------------------------
 

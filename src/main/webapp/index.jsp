@@ -31,11 +31,11 @@ if (session.getAttribute("username") != null) {
 						placeholder="Password" />
 				</div>
 
-				<div class="form-check">
+				<!-- <div class="form-check">
 					<input class="form-check-input" type="checkbox" value=""
 						id="defaultCheck1"> <label class="form-check-label"
 						for="defaultCheck1"> Remember Me </label>
-				</div>
+				</div> -->
 
 				<button type="submit" class="btn btn-success"><i class="fa fa-sign-out" aria-hidden="true"></i> Login</button>
 			</form>

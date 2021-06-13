@@ -347,7 +347,7 @@ var quiz_id = <%=request.getParameter("id")%>
 	// con = DriverManager.getConnection("jdbc:mysql://bxdckaiotjos6uxqsxij-mysql.services.clever-cloud.com:3306/bxdckaiotjos6uxqsxij", "u1bl3chv4wysc2pd", "fFWLbfvEvE8CYje7Cv3o");
 	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/online-quiz", "root", "");
 	stmt = con.createStatement();
-	rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='" + quizid + "' ORDER BY timestamp");
+	rs = stmt.executeQuery("SELECT * FROM questions WHERE quizid='" + quizid + "' ORDER BY timestamp, qno");
 	/*List<Question> questions = new ArrayList<>();*/
 
 	int i = 0;

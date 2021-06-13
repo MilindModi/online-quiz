@@ -16,7 +16,7 @@ import models.questions.*;
 public class UploadQuestionsCSV extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String uploadedFilename = null;
-	private static String UPLOAD_PATH = "D:\\uploads\\";
+	private static String UPLOAD_PATH = "uploads";
 
 	public UploadQuestionsCSV() {
 		super();
@@ -49,6 +49,10 @@ public class UploadQuestionsCSV extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		UPLOAD_PATH = getServletContext().getRealPath("") + File.separator + UPLOAD_PATH;
+		System.out.println(UPLOAD_PATH);
+		
 		String quizid = request.getParameter("quizid");
 		System.out.println("QUIZID: " + quizid);
 		String file_name = null;
@@ -58,8 +62,10 @@ public class UploadQuestionsCSV extends HttpServlet {
 		if (!isMultipartContent) {
 			return;
 		}
-		FileItemFactory factory = new DiskFileItemFactory();
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		factory.setRepository(new File(UPLOAD_PATH)); 
 		ServletFileUpload upload = new ServletFileUpload(factory);
+		
 		try {
 			List<FileItem> fields = upload.parseRequest(request);
 			Iterator<FileItem> it = fields.iterator();

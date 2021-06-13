@@ -56,7 +56,9 @@ sudo update-java-alternatives -l
 ```
 
 Output will be something like this
+```bash
 java-1.13.0-openjdk-amd64       1081       /usr/lib/jvm/java-1.13.0-openjdk-amd64
+```
 
 Edit **JAVA_HOME** as per above result in `/etc/systemd/system/tomcat.service`
 
@@ -72,7 +74,7 @@ sudo ufw allow 8080
 http://server_domain_or_IP:8080
 ```
 
-If you are using localhost, you can see 127.0.0.1 to view the website and all details will
+If you are using localhost, you can see our app at 127.0.0.1:8080
 
 # Screenshots
 

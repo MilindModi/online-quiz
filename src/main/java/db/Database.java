@@ -12,8 +12,11 @@ import java.util.*;
 
 public class Database {
 	static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+	// static final String DB_URL = "jdbc:mysql://bxdckaiotjos6uxqsxij-mysql.services.clever-cloud.com:3306/bxdckaiotjos6uxqsxij";
 	static final String DB_URL = "jdbc:mysql://localhost/online-quiz";
+	// static final String USER = "u1bl3chv4wysc2pd";
 	static final String USER = "root";
+	// static final String PASS = "fFWLbfvEvE8CYje7Cv3o";
 	static final String PASS = "";
 
 	public static void submitFeedback(String quizid, String username, int rating) {

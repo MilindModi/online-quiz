@@ -1,6 +1,6 @@
-﻿q,a,b,c,d,ca
-Question 1,A,B,C,D,1
-Question 2,D,C,B,A,2
-Question 3,B,C,A,D,3
-Question 4,Op1,Op2,Op3,Op4,4
-Question 5,Op4,Op3,Op2,Op1,4
+q,a,b,c,d,ca
+Who Developed Java ?,Dennis Ritchie,Bjarne Stroustrup,James Gosling,Rasmus Lerdorf,3
+Java was released in ?,1994,1995,1996,1997,2
+Which of following is not a version of java?,Java SE,Java EE,Java ME,Java ZE,4
+Which layer is the hear of OSI Model ?,Physical Layer,Transport Layer,Network Layer,Application Layer,2
+Which device is used to strengthen signals & retransmit them?,Repeater,Router,Hub,Switch,1

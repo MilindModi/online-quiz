@@ -30,13 +30,13 @@ public class UploadQuestionsCSV extends HttpServlet {
 		if (uploadedFilename == null)
 			return;
 		File file = new File(uploadedFilename);
-		try(BufferedReader reader = new BufferedReader(new FileReader(file));) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(file));) {
 			String line = reader.readLine();
 			// int id = Integer.parseInt(quizid);
 
 			int i = 1;
 			while ((line = reader.readLine()) != null) {
-				String[] qs = line.split("[,]");
+				String[] qs = line.split(",");
 				db.Database.addQuestion(new MCQ(qs[0], new String[] { qs[1], qs[2], qs[3], qs[4] }, qs[5]),
 						Integer.parseInt(quizid), i);
 				i++;

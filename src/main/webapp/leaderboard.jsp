@@ -118,7 +118,8 @@
 
 				String quizid = request.getParameter("id");
 				Class.forName("com.mysql.cj.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost/online-quiz", "root", "");
+				// con = DriverManager.getConnection("jdbc:mysql://bxdckaiotjos6uxqsxij-mysql.services.clever-cloud.com:3306/bxdckaiotjos6uxqsxij", "u1bl3chv4wysc2pd", "fFWLbfvEvE8CYje7Cv3o");
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/online-quiz", "root", "");
 				stmt = con.createStatement();
 				rs = stmt.executeQuery("Select Count(questionid) from questions where quizid='" + quizid + "'");
 				rs.next();

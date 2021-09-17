@@ -2,7 +2,7 @@
 
 ## Features
 
-* Authentication & Registration
+* Authentication and Registration
 * Create & Host your own Quiz
 * Add questions manually
 * Add questions from CSV
